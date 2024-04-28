@@ -1,5 +1,7 @@
 usuarios = list()
 usuario = dict()
+cont = 0
+number = []
 
 while True:
     usuario['user'] = str(input('Nome: '))
@@ -8,7 +10,12 @@ while True:
     
     print(usuario)
 
-print('colocado por well')
-    
+response = int(input('Digite um número'))
 
-print('Colocado por emmanuel')
+for x in range(response):
+    response = int(input('Digite um número qualquer: '))
+    response += 3
+    number.append(response)
+    cont += 1
+
+print(number)
