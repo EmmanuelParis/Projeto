@@ -10,3 +10,9 @@ while True:
     
 
     print('Colocado por emmanuel')
+    
+    counter = 0
+    for i in range(11):
+        counter += 1
+        
+    print(counter)
