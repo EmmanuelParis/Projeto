@@ -8,9 +8,9 @@ while True:
     print('CINE SERTÃO'.center(50))
     print('<--------------->'.center(50))
     print('MENU PRINCIPAL'.center(50))
-    print('=' * 50 ,'\033[36m')
+    print('=' * 50 ,'\033[36m \n')
 
-    print('\033[34m[1] - CATÁLOGO \n[2] - LOGIN \n[3] - CADASTRO \n[0] - SAIR\033[m')
+    print('\033[34m[1] - CATÁLOGO \n[2] - LOGIN \n[3] - CADASTRO \n[0] - SAIR\033[m\n')
 
     option = int(input('\033[32mOpção: \033[m'))
     
@@ -19,7 +19,7 @@ while True:
         while recognized != True:
             print('\033[35m=' * 50 )
             print('LOGIN'.center(50))
-            print('=' * 50 ,'\033[36m')
+            print('=' * 50 ,'\033[36m \n')
             username = input('\033[34mDigite seu usuário: \033[m')
             for pearson in usuarios:
                 if pearson['user'] == username:
@@ -33,7 +33,7 @@ while True:
     elif (option == 3):
         print('\033[35m=' * 50 )
         print('CADASTRO'.center(50))
-        print('=' * 50 ,'\033[36m')
+        print('=' * 50 ,'\033[36m \n')
         #CONDIÇÃO DE RESET PARA O CADASTRO DO NASCIMENTO
         dataCorrect = False
         thirtyDaysMonth = [4,6,9,11]
@@ -46,7 +46,7 @@ while True:
             if(firstPassword == secondPassword):
                 break
             else:
-                print('\033[33mAs senhas não são iguais, tente novamente.\033[m')
+                print('\033[33mAs senhas não coincidem, tente novamente.\033[m')
         #CHECAGEM DA DATA DE NASCIMENTO
         while (dataCorrect != True):
 
@@ -131,14 +131,14 @@ while True:
             if(checkAdmin == 1):
                 break
             elif(checkAdmin == 2):
-                adminKey = input("Digite a palavra chave para ser admin: ")
+                adminKey = input("\033[36mDigite a palavra-chave para se registrar como ADMIN: \033[m")
                 while (True):
                     if(adminKey == "senhafoda123"):
                         id = 1
-                        print('Cadastrado como admin!')
+                        print('\033[36mCadastrado como ADMIN!\033[m')
                         break
                     else:
-                        print('\033[31mPalavra chave errada!\033[m')
+                        print('\033[31mPalavra-chave incorreta!\033[m')
                 break
             else:
                 print('\033[31mInforme uma opção válida\033[m')
@@ -166,12 +166,12 @@ while True:
                     print('CINE SERTÃO'.center(50))
                     print('<--------------->'.center(50))
                     print('MENU CLIENTES'.center(50))
-                    print('=' * 50 ,'\033[36m')
+                    print('=' * 50 ,'\033[36m \n')
                     while True:
-                        actionMenu = int(input('\033[34mO que deseja fazer? \n[1] - Depositar Dinheiro \n[2] - Comprar Ingresso \n[3] - Avaliar Filme \n[0] - Deslogar \nOpção: \033[m'))
+                        actionMenu = int(input('\033[34mO que deseja fazer? \n[1] - Depositar Dinheiro \n[2] - Comprar Ingresso \n[3] - Avaliar Filme \n[0] - Deslogar \n\nOpção: \033[m'))
 
                         if actionMenu == 0:
-                            logOff = int(input('\033[34mTem certeza que deseja deslogar? \n[1] - Sim \n[2] - Não \nOpção: \033[m'))
+                            logOff = int(input('\033[34mTem certeza que deseja deslogar? \n[1] - Sim \n[2] - Não \n\nOpção: \033[m'))
                             if logOff == 1:
                                 recognized = False
                                 break
@@ -181,13 +181,13 @@ while True:
                     print('\033[35m=' * 50 )
                     print('CINE SERTÃO'.center(50))
                     print('<--------------->'.center(50))
-                    print('MENU ADMIN'.center(50))
+                    print('MENU ADMIN \n'.center(50))
                     print('=' * 50 ,'\033[36m')
                     while True:
-                        actionMenu = int(input('\033[34mO que deseja fazer? \n[1] - Cadastrar Filme \n[2] - Buscar Filme \n[3] - Remover Filme \n[4] - Atualizar Filme \n[5] - Controle e Feedback \n[0] - Deslogar \nOpção: \033[m'))
+                        actionMenu = int(input('\033[34mO que deseja fazer? \n[1] - Cadastrar Filme \n[2] - Buscar Filme \n[3] - Remover Filme \n[4] - Atualizar Filme \n[5] - Controle e Feedback \n[0] - Deslogar \n\nOpção: \033[m'))
 
                         if actionMenu == 0:
-                            logOff = int(input('\033[34mTem certeza que deseja deslogar? \n[1] - Sim \n[2] - Não \nOpção: \033[m'))
+                            logOff = int(input('\033[34mTem certeza que deseja deslogar? \n[1] - Sim \n[2] - Não \n\nOpção: \033[m'))
                             if logOff == 1:
                                 recognized = False
                                 break
