@@ -16,6 +16,7 @@ while True:
     
 # SISTEMA DE LOGIN
     if (option == 2):
+
         while recognized != True:
             print('\033[35m=' * 50 )
             print('LOGIN'.center(50))
@@ -34,11 +35,33 @@ while True:
         print('\033[35m=' * 50 )
         print('CADASTRO'.center(50))
         print('=' * 50 ,'\033[36m \n')
-        #CONDIÇÃO DE RESET PARA O CADASTRO DO NASCIMENTO
+        #CONDIÇÃO DE RESET PARA O CADASTRO
         dataCorrect = False
         thirtyDaysMonth = [4,6,9,11]
+        recognizedRegister = True
 
-        registerUser = str(input('\033[34mDigite seu nome de usuário: \033[m'))
+        while recognizedRegister:
+            contUser = 0
+            registerUser = str(input('\033[34mDigite seu nome de usuário: \033[m'))
+
+            if (len(usuarios) == 0):
+                break
+            elif (len(usuario) != 0):
+                for user in usuarios:
+                    print('='*12)
+                    print(user['user'])
+                    if (registerUser in user['user']):
+                        print('Nome de usuario já registrado!')
+                        print('Ensira um outro nome.')
+                        contUser += 1
+                        break
+                if (contUser == 0):    
+                    recognizedRegister = False
+                else:
+                    recognizedRegister = True
+
+                   
+
         firstPassword = str(input('\033[34mDigite sua senha: \033[m'))
         #CHECAGEM DE SENHA
         while True:
@@ -131,8 +154,8 @@ while True:
             if(checkAdmin == 1):
                 break
             elif(checkAdmin == 2):
-                adminKey = input("\033[36mDigite a palavra-chave para se registrar como ADMIN: \033[m")
                 while (True):
+                    adminKey = input("\033[36mDigite a palavra-chave para se registrar como ADMIN: \033[m")
                     if(adminKey == "senhafoda123"):
                         id = 1
                         print('\033[36mCadastrado como ADMIN!\033[m')
