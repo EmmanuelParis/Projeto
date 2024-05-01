@@ -1,6 +1,19 @@
 usuarios = list()
 usuario = dict()
+
+movies = list()
+movie = dict()
+
+movieRoom = {
+    'Sala A' : 40, 'occupation A' : 0,
+    'Sala B' : 60, 'occupation B' : 0,
+    'Sala C' : 40, 'occupation C' : 0,
+    'Sala D' : 60, 'occupation D' : 0,
+}
+
+
 recognized = False
+recognizedRoom = True
 while True:
     
 # MENU PRINCIPAL
@@ -30,42 +43,13 @@ while True:
                     else:
                         recognized = True
                         print('\033[32mVocê está logado!\033[m')
-            
+
+# SISTEMA DE CADASTRO
     elif (option == 3):
         print('\033[35m=' * 50 )
         print('CADASTRO'.center(50))
         print('=' * 50 ,'\033[36m \n')
         #CONDIÇÃO DE RESET PARA O CADASTRO
-<<<<<<< HEAD
-        dataCorrect = False
-        thirtyDaysMonth = [4,6,9,11]
-        recognizedRegister = True
-
-        while recognizedRegister:
-            contUser = 0
-            registerUser = str(input('\033[34mDigite seu nome de usuário: \033[m'))
-
-            if (len(usuarios) == 0):
-                break
-            elif (len(usuario) != 0):
-                for user in usuarios:
-                    print('='*12)
-                    print(user['user'])
-                    if (registerUser in user['user']):
-                        print('Nome de usuario já registrado!')
-                        print('Ensira um outro nome.')
-                        contUser += 1
-                        break
-                if (contUser == 0):    
-                    recognizedRegister = False
-                else:
-                    recognizedRegister = True
-
-                   
-
-        #CONDIÇÃO DE RESET PARA O CADASTRO DO NASCIMENTO
-=======
->>>>>>> 64cb51ffae1a698246c9adf6176a7ec09c5ec9d0
         dataCorrect = False
         thirtyDaysMonth = [4,6,9,11]
         recognizedRegister = True
@@ -172,7 +156,7 @@ while True:
                 
         #CHECAGEM DO EMAIL
         while (True):
-            userEmail = input('\033[34mInforme seu email: \033[m')
+            userEmail = input('\033[34mInforme seu email: \033[m').lower()
             if(userEmail[-4:] == ".com" and (userEmail.count("@") == 1)):
                 break
             else:
@@ -234,7 +218,7 @@ while True:
                     print('\033[35m=' * 50 )
                     print('CINE SERTÃO'.center(50))
                     print('<--------------->'.center(50))
-                    print('MENU ADMIN \n'.center(50))
+                    print('MENU ADMIN'.center(50))
                     print('=' * 50 ,'\033[36m')
                     while True:
                         actionMenu = int(input('\033[34mO que deseja fazer? \n[1] - Cadastrar Filme \n[2] - Buscar Filme \n[3] - Remover Filme \n[4] - Atualizar Filme \n[5] - Controle e Feedback \n[0] - Deslogar \n\nOpção: \033[m'))
@@ -244,5 +228,48 @@ while True:
                             if logOff == 1:
                                 recognized = False
                                 break
+                            
+                        elif actionMenu == 1:
+                            print('\033[35m=' * 50 )
+                            print('CADASTRAR FILME'.center(50))
+                            print('=' * 50 ,'\033[36m \n')
+                            # INICIO DO CADASTRO DO FILME
+                            movieTitle = input('Digite o título do filme: ')
+                            movieGenre = input('Digite o gênero do filme: ')
+                            ticketPrice = input('Digite o valor do ingresso: ')
+                            # FILTRAGEM DOS DOIS NÚMEROS APÓS A VÍRGULA
+                            dotPosition = ticketPrice.find('.') 
+                            ticketPrice = (float(ticketPrice[:dotPosition+3]))
+                            # ESCOLHA DE SALA E SUA CAPACIDADE
+                            print('\n')
+                            print('\033[35m=' * 50 )
+                            print('SALAS'.center(50))
+                            print('=' * 50 ,'\033[36m')
+                            # EXIBIÇÃO DAS SALAS POR MEIO DE LOOP
+                            for sala in movieRoom:
+                                if 'Sala' in sala:
+                                    imageSala = f'{sala}, Capacidade: {movieRoom[sala]}'
+                                else:
+                                    if movieRoom[sala] != 1:
+                                        imageSala += ', Sala: LIVRE!'
+                                        print(imageSala)
+                                    else:
+                                        imageSala += ', Sala: OCUPADA!'    
+                                        print(imageSala)
+                            print('\n')
+                            # LOOP DE SELEÇÃO DE SALAS
+                            while recognizedRoom:
+                                selectRoom = input('Qual sala o filme ocupará? [A/B/C/D] \nSala: ').upper()
+                                occupationRoom = 'occupation ' + selectRoom
+                                selectRoom = 'Sala ' + selectRoom
+                                for sala in movieRoom:
+                                    if selectRoom == sala:
+                                        if movieRoom[occupationRoom] == 0:
+                                            print('Filme cadastrado com sucesso!')
+                                            movieRoom[occupationRoom] = 1
+                                            recognizedRoom = False
+                                        else:
+                                            print('A sala está ocupada')
+                            
     else:
         pass
