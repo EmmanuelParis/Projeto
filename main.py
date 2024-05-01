@@ -1,4 +1,10 @@
-usuarios = list()
+usuarios = [{
+    'user' : 'emmanuel',
+    'password' : '123',
+    'age' : 18,
+    'email' : 'emmanuel@gmail.com',
+    'id' : 1}]
+
 usuario = dict()
 
 movies = list()
@@ -60,10 +66,8 @@ while True:
 
             if (len(usuarios) == 0):
                 break
-            elif (len(usuario) != 0):
+            elif (len(usuarios) != 0):
                 for user in usuarios:
-                    print('='*12)
-                    print(user['user'])
                     if (registerUser in user['user']):
                         print('Nome de usuario já registrado!')
                         print('Ensira um outro nome.')
@@ -88,7 +92,7 @@ while True:
         while (dataCorrect != True):
 
             birthdate = str(input('\033[34mDigite a data de nascimento [dd/mm/aaaa]: \033[m'))
-            #CONDIÇÃO DE FILTRAGEM SEM OS PARENTESES
+            #CONDIÇÃO DE FILTRAGEM SEM AS BARRAS
             if (len(birthdate) == 8 and len(birthdate) > 0):
                 birthdate = "/".join([birthdate[:2], birthdate[2:]])
                 birthdate = "/".join([birthdate[:5], birthdate[5:]])
@@ -121,7 +125,7 @@ while True:
                         print('\033[31mData informada inválida!\033[m')
                 else:
                     print('\033[31mData informada inválida!\033[m') 
-            #CONDIÇÃO DE FILTRAGEM COM OS PARENTESES    
+            #CONDIÇÃO DE FILTRAGEM COM AS BARRAS    
             elif (len(birthdate) == 10 and birthdate[2] == '/' and birthdate[5] == '/'):
                 birthdateYear = int(birthdate[6:])
                 birthdateDay = int(birthdate[0:2])
@@ -220,9 +224,11 @@ while True:
                     print('<--------------->'.center(50))
                     print('MENU ADMIN'.center(50))
                     print('=' * 50 ,'\033[36m')
+                    print('\n')
                     while True:
                         actionMenu = int(input('\033[34mO que deseja fazer? \n[1] - Cadastrar Filme \n[2] - Buscar Filme \n[3] - Remover Filme \n[4] - Atualizar Filme \n[5] - Controle e Feedback \n[0] - Deslogar \n\nOpção: \033[m'))
-
+                        print('\n')
+                        
                         if actionMenu == 0:
                             logOff = int(input('\033[34mTem certeza que deseja deslogar? \n[1] - Sim \n[2] - Não \n\nOpção: \033[m'))
                             if logOff == 1:
@@ -230,13 +236,93 @@ while True:
                                 break
                             
                         elif actionMenu == 1:
+                            # RESET DA DATA DE LANÇAMENTO
+                            releaseCorrect = False
+                            thirtyDaysMonth = [4,6,9,11]
+                            # RESET DA ESCOLHA DA SALA
+                            recognizedRoom = True
+                            
                             print('\033[35m=' * 50 )
                             print('CADASTRAR FILME'.center(50))
                             print('=' * 50 ,'\033[36m \n')
                             # INICIO DO CADASTRO DO FILME
-                            movieTitle = input('Digite o título do filme: ')
-                            movieGenre = input('Digite o gênero do filme: ')
-                            ticketPrice = input('Digite o valor do ingresso: ')
+                            movieTitle = input('\033[34mDigite o título do filme: \033[m')
+                            movieGenre = input('\033[34mDigite o gênero do filme: \033[m')
+                            sinopseMovie = input('\033[34mDigite a sinopse do filme: \033[m')
+                            ageRating = input('\033[34mDigite a classificação de idade: \033[m')
+                            movieDuration = input('\033[34mDigite a duração do filme em minutos: \033[m')  
+                            movieHour = int(movieDuration) // 60
+                            movieMinutes = int(movieDuration) % 60
+                            
+                            while (releaseCorrect != True):
+                                releaseDate = input('\033[34mDigite a data de lançamento: \033[m')    
+                                #CONDIÇÃO DE FILTRAGEM SEM AS BARRAS
+                                if (len(releaseDate) == 8 and len(releaseDate) > 0):
+                                    releaseDate = "/".join([releaseDate[:2], releaseDate[2:]])
+                                    releaseDate = "/".join([releaseDate[:5], releaseDate[5:]])
+
+                                    releaseYear = int(releaseDate[6:])
+                                    releaseDay = int(releaseDate[0:2])
+                                    releaseMonth = int(releaseDate[3:5])
+                                    #CHECAGEM SE O ANO É VALIDO
+                                    if((releaseYear < 1944) or (releaseYear> 2024)):
+                                        print('\033[31mData informada inválida!\033[m')
+                                    #CHECAGEM SE O MES É VALIDO
+                                    elif((releaseMonth) <= 0 or (releaseMonth > 12)):
+                                        print('\033[31mMês digitado inválido\033[m')
+                                    #CHECAGEM SE O DIA É VALIDO
+                                    elif((releaseDay > 0) and (releaseDay <= 31)):
+                                        #CHECAGEM DE ANO BISSEXTO
+                                        if (releaseDay == 29 and releaseMonth == 2):
+                                            if (releaseYear % 4 == 0 and releaseYear % 100 != 0) or (releaseYear % 400 == 0):
+                                                releaseCorrect = True
+                                            else:
+                                                print('\033[31mData informada inválida!\033[m')
+                                        elif ((releaseMonth in thirtyDaysMonth) and releaseDay < 31):
+                                                releaseCorrect = True
+                                        elif ((releaseMonth not in thirtyDaysMonth) and releaseDay <= 31):
+                                                if (releaseMonth == 2 and releaseDay > 28):
+                                                    print('\033[31mData informada inválida!\033[m')
+                                                else:
+                                                    releaseCorrect = True
+                                        else:
+                                            print('\033[31mData informada inválida!\033[m')
+                                    else:
+                                        print('\033[31mData informada inválida!\033[m') 
+                                #CONDIÇÃO DE FILTRAGEM COM OS BARRA    
+                                elif (len(releaseDate) == 10 and releaseDate[2] == '/' and releaseDate[5] == '/'):
+                                    releaseYear = int(releaseDate[6:])
+                                    releaseDay = int(releaseDate[0:2])
+                                    releaseMonth = int(releaseDate[3:5])
+                                    #CHECAGEM SE O ANO É VALIDO
+                                    if((releaseYear < 1944) or (releaseYear> 2024)):
+                                        print('\033[31mData informada inválida!\033[m')
+                                    #CHECAGEM SE O MES É VALIDO
+                                    elif((releaseMonth) <= 0 or (releaseMonth > 12)):
+                                        print('\033[31mMês digitado inválido\033[m')
+                                    #CHECAGEM SE O DIA É VALIDO
+                                    elif((releaseDay > 0) and (releaseDay <= 31)):
+                                        #CHECAGEM DE ANO BISSEXTO
+                                        if (releaseDay == 29 and releaseMonth == 2):
+                                            if (releaseYear % 4 == 0 and releaseYear % 100 != 0) or (releaseYear % 400 == 0):
+                                                releaseCorrect = True
+                                            else:
+                                                print('\033[31mData informada inválida!\033[m')
+                                        elif ((releaseMonth in thirtyDaysMonth) and releaseDay < 31):
+                                                releaseCorrect = True
+                                        elif ((releaseMonth not in thirtyDaysMonth) and releaseDay <= 31):
+                                                if (releaseMonth == 2 and releaseDay > 28):
+                                                    print('\033[31mData informada inválida!\033[m')
+                                                else:
+                                                    releaseCorrect = True
+                                        else:
+                                            print('\033[31mData informada inválida!\033[m')
+                                    else:
+                                        print('\033[31mData informada inválida!\033[m')          
+                                else:
+                                    print('\033[31mData informada inválida!\033[m')
+                            
+                            ticketPrice = input('\033[34mDigite o valor do ingresso: \033[m')
                             # FILTRAGEM DOS DOIS NÚMEROS APÓS A VÍRGULA
                             dotPosition = ticketPrice.find('.') 
                             ticketPrice = (float(ticketPrice[:dotPosition+3]))
@@ -244,11 +330,11 @@ while True:
                             print('\n')
                             print('\033[35m=' * 50 )
                             print('SALAS'.center(50))
-                            print('=' * 50 ,'\033[36m')
+                            print('=' * 50 ,'\033[36m \n')
                             # EXIBIÇÃO DAS SALAS POR MEIO DE LOOP
                             for sala in movieRoom:
                                 if 'Sala' in sala:
-                                    imageSala = f'{sala}, Capacidade: {movieRoom[sala]}'
+                                    imageSala = f'\033[34m{sala}, Capacidade: {movieRoom[sala]}\033[m'
                                 else:
                                     if movieRoom[sala] != 1:
                                         imageSala += ', Sala: LIVRE!'
@@ -259,17 +345,41 @@ while True:
                             print('\n')
                             # LOOP DE SELEÇÃO DE SALAS
                             while recognizedRoom:
-                                selectRoom = input('Qual sala o filme ocupará? [A/B/C/D] \nSala: ').upper()
+                                selectRoom = input('\033[34mQual sala o filme ocupará? [A/B/C/D] \nSala: \033[m').upper()
                                 occupationRoom = 'occupation ' + selectRoom
                                 selectRoom = 'Sala ' + selectRoom
                                 for sala in movieRoom:
                                     if selectRoom == sala:
                                         if movieRoom[occupationRoom] == 0:
-                                            print('Filme cadastrado com sucesso!')
                                             movieRoom[occupationRoom] = 1
                                             recognizedRoom = False
                                         else:
-                                            print('A sala está ocupada')
+                                            print('A sala está ocupada')         
+                                            
+                            while True:
                             
+                                movieTime = input(f'\033[34mDigite o horário que o filme vai passar na {'a'} [HH:MM]: \033[m')
+                                if len(movieTime) == 5 and movieTime[2] == ':':
+                                    movieTime = movieTime[:2] + movieTime[3:]
+                                    if movieTime.isdigit() == True and (movieTime[:2] >= '00' and movieTime[:2] < '24') and (movieTime[2:] >= '00' and movieTime[2:] < '60'):
+                                        break
+                                    else:
+                                        print('Horário Inválido')
+                                else:
+                                    print('Horário Inválido')
+
+                            ratingTomato = movieDuration[0] + movieTime[1] + '%'
+        
+                            movie['title'] = movieTitle
+                            movie['genre'] = movieGenre
+                            movie['sinopse'] = sinopseMovie
+                            movie['ageRating'] = ageRating
+                            movie['hours'] = movieHour
+                            movie['minutes'] = movieMinutes
+                            movie['price'] = ticketPrice
+                            movie['room'] = selectRoom
+                            movie['time'] = movieTime
+                            movie['rating'] = ratingTomato
+                            movies.append(movie.copy())
     else:
         pass

@@ -1,33 +1,43 @@
-movieRoom = {
-    'Sala A' : 25, 'occupation A' : 1,
-    'Sala B' : 60, 'occupation B' : 1,
-    'Sala C' : 40, 'occupation C' : 1,
-    'Sala D' : 60, 'occupation D' : 1,
-}
-
-for sala in movieRoom:
-    if 'Sala' in sala:
-        imageSala = f'{sala}, Capacidade: {movieRoom[sala]}'
-    else:
-        if movieRoom[sala] != 1:
-            imageSala += ', Sala Livre'
-            print(imageSala)
-        else:
-            imageSala += ', Sala Ocupada'    
-            print(imageSala)
-print('\n')
-print(movieRoom)
-print('\n')  
+movieDuration = input('\033[34mDigite a duração do filme em minutos: \033[m')  
+movieHour = int(movieDuration) // 60
+movieMinutes = int(movieDuration) % 60
+                            
 
 
-# selectRoom = input('Qual sala o filme ocupará? [A/B/C/D] \nSala: ').upper()
-# occupationRoom = 'occupation ' + selectRoom
-# selectRoom = 'Sala ' + selectRoom
-# for sala in movieRoom:
-#     if selectRoom == sala:
-#         if movieRoom[occupationRoom] == 0:
-#             print('A sala não está ocupada e o filme foi cadastrado com sucesso')
-#             movieRoom[occupationRoom] = 1
-#         else:
-#             print('A sala está ocupada')
-            
+
+
+
+
+
+
+movieTime = input(f'\033[34mDigite o horário que o filme vai passar na {'a'} [HH:MM]: \033[m')
+if len(movieTime) == 5 and movieTime[2] == ':':
+    movieTime = movieTime[:2] + movieTime[3:]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ratingTomato = movieDuration[0] + movieTime[1] + '%'
+
+print(ratingTomato)
