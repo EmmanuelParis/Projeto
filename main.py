@@ -62,6 +62,11 @@ while True:
 
                    
 
+        #CONDIÇÃO DE RESET PARA O CADASTRO DO NASCIMENTO
+        dataCorrect = False
+        thirtyDaysMonth = [4,6,9,11]
+
+        registerUser = str(input('\033[34mDigite seu nome de usuário: \033[m'))
         firstPassword = str(input('\033[34mDigite sua senha: \033[m'))
         #CHECAGEM DE SENHA
         while True:
@@ -154,6 +159,7 @@ while True:
             if(checkAdmin == 1):
                 break
             elif(checkAdmin == 2):
+                adminKey = input("\033[36mDigite a palavra-chave para se registrar como ADMIN: \033[m")
                 while (True):
                     adminKey = input("\033[36mDigite a palavra-chave para se registrar como ADMIN: \033[m")
                     if(adminKey == "senhafoda123"):
