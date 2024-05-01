@@ -1,6 +1,8 @@
-data20 = "emanuedasdadwadadaslParis@gmail.com"
+casa = True
 
-if (data20[-4:] != ".com"):
-    print('Email errado')
-else:
-    print('email certo')
+if (casa == True):
+    for x in [1,2,3,4]:
+        if(x == 2):
+            print('usuario estranho')
+            break
+    print('Chegou no final do if')
