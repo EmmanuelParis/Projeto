@@ -6,10 +6,7 @@ usuarios = [{
     'id' : 1
     }]
 
-usuario = dict()
-
 movies = list()
-movie = dict()
 
 movieRoom = {
     'Sala A' : 40, 'occupation A' : 0,
@@ -24,6 +21,8 @@ recognizedRoom = True
 while True:
     
 # MENU PRINCIPAL
+    # PRINT PARA LIMPAR TERMINAL
+    print("\033[H\033[J", end="")
     print('\033[35m=' * 50 )
     print('CINE SERTÃO'.center(50))
     print('<--------------->'.center(50))
@@ -36,6 +35,7 @@ while True:
     
 # SISTEMA DE LOGIN
     if (option == 2):
+        print("\033[H\033[J", end="")
         usercounter = 0
         print('\033[35m=' * 50 )
         print('LOGIN'.center(50))
@@ -53,9 +53,10 @@ while True:
                 usercounter += 1
             if usercounter == len(usuarios) and pearson['user'] != username:
                 print('\033[31mUsuário não encontrado\033[m')
-
+                
 # SISTEMA DE CADASTRO
     elif (option == 3):
+        print("\033[H\033[J", end="")
         print('\033[35m=' * 50 )
         print('CADASTRO'.center(50))
         print('=' * 50 ,'\033[36m \n')
@@ -189,15 +190,19 @@ while True:
                 print('\033[31mInforme uma opção válida\033[m')
                 
         age = 2024 - birthdateYear
+        usuario = dict()
         usuario['user'] = registerUser
         usuario['password'] = firstPassword
         usuario['age'] = age
         usuario['email'] = userEmail
         usuario['id'] = id
-        usuarios.append(usuario.copy())
+        usuarios.append(usuario)
         
         print('\033[36mCadastro concluido com Sucesso!\033[m')
+        input('Pressione qualquer tecla para continuar!')
+        
     elif option == 0:
+        print("\033[H\033[J", end="")
         print('\033[35mEncerrando o programa! Até a próxima!\033[m')
         break
     else:
@@ -224,6 +229,7 @@ while True:
 # CRUD - ADMIN
                 elif pearson['id'] == 1:
                     while True:
+                        print("\033[H\033[J", end="")
                         print('\033[35m=' * 50 )
                         print('CINE SERTÃO'.center(50))
                         print('<--------------->'.center(50))
@@ -238,14 +244,14 @@ while True:
                             if logOff == 1:
                                 recognized = False
                                 break
-                            
+                        # CADASTRAR FILME
                         elif actionMenu == 1:
                             # RESET DA DATA DE LANÇAMENTO
                             releaseCorrect = False
                             thirtyDaysMonth = [4,6,9,11]
                             # RESET DA ESCOLHA DA SALA
                             recognizedRoom = True
-                            
+                            print("\033[H\033[J", end="")
                             print('\033[35m=' * 50 )
                             print('CADASTRAR FILME'.center(50))
                             print('=' * 50 ,'\033[36m \n')
@@ -371,22 +377,29 @@ while True:
                                         print('\033[31mHorário Inválido\033[m')
                                 else:
                                     print('\033[31mHorário Inválido\033[m')
-
+                            
+                            print('\33[36mFilme Cadastrado com Sucesso!\33[m')
+                            input('Pressione qualquer tecla para continuar!')
+                            
                             ratingTomato = movieDuration[0] + movieTime[1] + '%'
-        
+                            movie = dict()
                             movie['title'] = movieTitle
                             movie['genre'] = movieGenre
                             movie['sinopse'] = sinopseMovie
                             movie['ageRating'] = ageRating
+                            movie['release'] = releaseDate
+                            movie['duration'] = movieDuration
                             movie['hours'] = movieHour
                             movie['minutes'] = movieMinutes
                             movie['price'] = ticketPrice
                             movie['room'] = selectRoom
                             movie['time'] = movieTime
                             movie['rating'] = ratingTomato
-                            movies.append(movie.copy())
                             
+                            movies.append(movie)
+                        # BUSCAR FILME
                         elif actionMenu == 2:
+                            print("\033[H\033[J", end="")
                             print('\033[35m=' * 50 )
                             print('BUSCAR FILME'.center(50))
                             print('=' * 50 ,'\033[36m \n')
@@ -395,21 +408,30 @@ while True:
                                 searchMovieTitle = input('\33[34mQual o título do filme? \33[m')
                                 for movie in movies:
                                     if movie['title'] == searchMovieTitle:
-                                        print(f'\33[36mTítulo do filme: {movie['title']}\nGênero do filme: {movie['genre']}\nSinopse do Filme: {movie['sinopse']}\nFaixa etária permitida: {movie['ageRating']}\nDuração: {movie['hours']} Horas e {movie['minutes']} Minutos\nPreço do ingresso: R${movie['price']}\nSala: {movie['room']}\nHorário de streaming: {movie['time']}\nAvaliação: {movie['rating']}\33[m')
+                                        print('\033[36m=' * 50) 
+                                        print(f'\33[36mTítulo do filme: {movie['title']}\nGênero do filme: {movie['genre']}\nSinopse do Filme: {movie['sinopse']}\nFaixa etária permitida: {movie['ageRating']}\nData de lançamento: {movie['release']}\nDuração: {movie['hours']} Hora(s) e {movie['minutes']} Minuto(s)\nPreço do ingresso: R${movie['price']}\nSala: {movie['room']}\nHorário de streaming: {movie['time']}\nAvaliação: {movie['rating']}\33[m')
+                                        print('\033[36m=' * 50)
+                                        input('Pressione qualquer tecla para continuar!')
                             elif searchMethod == 2:
                                 searchMovieGenre = input('\33[34mQual o gênero do filme? \33[m')
                                 for movie in movies:
                                     if movie['genre'] == searchMovieGenre:
-                                        print(f'\33[36mTítulo do filme: {movie['title']}\nGênero do filme: {movie['genre']}\nSinopse do Filme: {movie['sinopse']}\nFaixa etária permitida: {movie['ageRating']}\nDuração: {movie['hours']} Horas e {movie['minutes']} Minutos\nPreço do ingresso: R${movie['price']}\nSala: {movie['room']}\nHorário de streaming: {movie['time']}\nAvaliação: {movie['rating']}\33[m')
+                                        print('\033[36m=' * 50)
+                                        print(f'\33[36mTítulo do filme: {movie['title']}\nGênero do filme: {movie['genre']}\nSinopse do Filme: {movie['sinopse']}\nFaixa etária permitida: {movie['ageRating']}\nData de lançamento: {movie['release']}\nDuração: {movie['hours']} Hora(s) e {movie['minutes']} Minuto(s)\nPreço do ingresso: R${movie['price']}\nSala: {movie['room']}\nHorário de streaming: {movie['time']}\nAvaliação: {movie['rating']}\33[m')
+                                        print('\033[36m=' * 50,'\033[36m \n')
+                                        input('Pressione qualquer tecla para continuar!')
                             else:
                                 print('\33[31mDigite uma opção válida!\33[m')
-                                
+                                input('Pressione qualquer tecla para continuar!')
+                        # REMOVER FILME   
                         elif actionMenu == 3:
+                            print("\033[H\033[J", end="")
                             print('\033[35m=' * 50 )
                             print('REMOVER FILME'.center(50))
                             print('=' * 50 ,'\033[36m \n')
                             
                             contMovies = 0
+                            print(f'\33[34m~~ Filmes Cadastrados ~~\33[m')
                             for movie in movies:
                                         print(f'\33[34mFilme {contMovies+1}\33[m: \33[36m{movie['title']}\33[m')
                                         contMovies += 1
@@ -421,17 +443,80 @@ while True:
                                     del movies[contIndexDel]
                                     print('\33[36mFilme Removido!\33[m')
                                 contIndexDel += 1
-                        
+                            input('Pressione qualquer tecla para continuar!')
+                        # ATUALIZAR FILME
                         elif actionMenu == 4:
+                            print("\033[H\033[J", end="")
                             print('\033[35m=' * 50 )
                             print('ATUALIZAR FILME'.center(50))
                             print('=' * 50 ,'\033[36m \n')
                             
                             contMovies = 0
+                            print(f'\33[34m~~ Filmes Cadastrados ~~\33[m')
                             for movie in movies:
                                         print(f'\33[34mFilme {contMovies+1}\33[m: \33[36m{movie['title']}\33[m')
                                         contMovies += 1
                             attMovie = input('\33[34mDigite o título do filme deseja atualizar:  \33[m')
-                            pass
+                            contIndexAtt = 0
+                            for movie in movies:
+                                if movie['title'] == attMovie:
+                                    attType = int(input('\33[34mEscolha a informação que deseja atualizar: \n[1] - Título \n[2] - Gênero \n[3] - Sinopse \n[4] - Classificação de Idade \n[5] - Duração \n[6] - Data de Lançamento \n[7] - Sala \n[8] - Horário \n[9] - Avaliação \n[0] - Voltar \nOpção: \33[m'))
+                                    if attType == 0:
+                                        break
+                                    elif attType == 1:
+                                        print(f'\33[33mTítulo Atual: {movie['title']}\33[m')
+                                        newTitle = input('\33[34mDigite o novo título: \33[m')
+                                        movie['title'] = newTitle
+                                    elif attType == 2:
+                                        print(f'\33[33mGênero Atual: {movie['genre']}\33[m')
+                                        newGenre = input('\33[34mDigite o novo gênero: \33[m')
+                                        movie['genre'] = newGenre
+                                    elif attType == 3:
+                                        print(f'\33[33mSinopse Atual: {movie['sinopse']}\33[m')
+                                        newSinopse = input('\33[34mDigite a nova sinopse: \33[m')
+                                        movie['sinopse'] = newSinopse
+                                    elif attType == 4:
+                                        print(f'\33[33mClassificação de idade Atual: {movie['ageRating']}\33[m')
+                                        newAgeRating = input('\33[34mDigite a nova classificação de idade: \33[m')
+                                        movie['ageRating'] = newAgeRating
+                                    elif attType == 5:
+                                        print(f'\33[33mDuração Atual: {movie['duration']}\33[m')
+                                        newDuration = input('\33[34mDigite a nova duração do filme: \33[m')
+                                        newHour = int(newDuration) // 60
+                                        newMinutes = int(newDuration) % 60
+                                        movie['duration'] = newDuration
+                                        movie['hours'] = newHour
+                                        movie['minutes'] = newMinutes
+                                    elif attType == 6:
+                                        print(f'\33[33mData de Lançamento Atual: {movie['release']}\33[m')
+                                        newDate = input('\33[34mDigite a nova data de lançamento: \33[m')
+                                        movie['release'] = newDate
+                                    elif attType == 7:
+                                        print(f'\33[33mSala Atual: {movie['room']}\33[m')
+                                        movieRoom[occupationRoom] = 0
+                                        newRoom = input('\33[34mDigite a nova sala: \33[m').upper()
+                                        occupationRoom = 'occupation ' + newRoom
+                                        newRoom = 'Sala ' + newRoom
+                                        for sala in movieRoom:
+                                            if newRoom == sala:
+                                                if movieRoom[occupationRoom] == 0:
+                                                    movieRoom[occupationRoom] = 1
+                                                    movie['room'] = newRoom
+                                                else:
+                                                    print('\033[31mA sala está ocupada\033[m')
+                                    elif attType == 8:
+                                        print(f'\33[33mHorário de Streaming Atual: {movie['time']}\33[m')
+                                        newTime = input('\33[34mDigite o novo horário de streaming: \33[m')
+                                        movie['time'] = newTime
+                                    elif attType == 9:
+                                        print(f'\33[33mAvaliação Atual: {movie['rating']}\33[m')
+                                        newRating = input('\33[34mDigite a nova avaliação: \33[m')
+                                        movie['rating'] = newRating
+                                    else:
+                                        print('\33[31mDigite uma opção válida!\33[m')
+                                input('Pressione qualquer tecla para continuar!')
+                        # GESTÃO E FEEDBACK
+                        elif actionMenu == 5:
+                            pass           
     else:
         pass
