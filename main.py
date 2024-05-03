@@ -3,7 +3,8 @@ usuarios = [{
     'password' : '123',
     'age' : 18,
     'email' : 'emmanuel@gmail.com',
-    'id' : 1}]
+    'id' : 1
+    }]
 
 usuario = dict()
 
@@ -35,11 +36,11 @@ while True:
     
 # SISTEMA DE LOGIN
     if (option == 2):
-
+        usercounter = 0
+        print('\033[35m=' * 50 )
+        print('LOGIN'.center(50))
+        print('=' * 50 ,'\033[36m \n')
         while recognized != True:
-            print('\033[35m=' * 50 )
-            print('LOGIN'.center(50))
-            print('=' * 50 ,'\033[36m \n')
             username = input('\033[34mDigite seu usuário: \033[m')
             for pearson in usuarios:
                 if pearson['user'] == username:
@@ -49,6 +50,9 @@ while True:
                     else:
                         recognized = True
                         print('\033[32mVocê está logado!\033[m')
+                usercounter += 1
+            if usercounter == len(usuarios) and pearson['user'] != username:
+                print('\033[31mUsuário não encontrado\033[m')
 
 # SISTEMA DE CADASTRO
     elif (option == 3):
@@ -68,9 +72,9 @@ while True:
                 break
             elif (len(usuarios) != 0):
                 for user in usuarios:
-                    if (registerUser in user['user']):
+                    if (registerUser == user['user']):
                         print('Nome de usuario já registrado!')
-                        print('Ensira um outro nome.')
+                        print('Insira um outro nome.')
                         contUser += 1
                         break
                 if (contUser == 0):    
@@ -199,7 +203,7 @@ while True:
     else:
         print('\033[31mDigite uma opção válida!\033[m')        
 # CRUD - CLIENTE
-    if recognized == True:
+    if recognized:
         for pearson in usuarios:
             if pearson['user'] == username:
                 if pearson['id'] == 0:
@@ -219,13 +223,13 @@ while True:
                     
 # CRUD - ADMIN
                 elif pearson['id'] == 1:
-                    print('\033[35m=' * 50 )
-                    print('CINE SERTÃO'.center(50))
-                    print('<--------------->'.center(50))
-                    print('MENU ADMIN'.center(50))
-                    print('=' * 50 ,'\033[36m')
-                    print('\n')
                     while True:
+                        print('\033[35m=' * 50 )
+                        print('CINE SERTÃO'.center(50))
+                        print('<--------------->'.center(50))
+                        print('MENU ADMIN'.center(50))
+                        print('=' * 50 ,'\033[36m')
+                        print('\n')
                         actionMenu = int(input('\033[34mO que deseja fazer? \n[1] - Cadastrar Filme \n[2] - Buscar Filme \n[3] - Remover Filme \n[4] - Atualizar Filme \n[5] - Controle e Feedback \n[0] - Deslogar \n\nOpção: \033[m'))
                         print('\n')
                         
@@ -323,7 +327,7 @@ while True:
                                     print('\033[31mData informada inválida!\033[m')
                             
                             ticketPrice = input('\033[34mDigite o valor do ingresso: \033[m')
-                            # FILTRAGEM DOS DOIS NÚMEROS APÓS A VÍRGULA
+                            # FILTRAGEM DOS DOIS NÚMEROS APÓS A VÍRGULA E TRANSFORMANDO A STRING EM FLOAT
                             dotPosition = ticketPrice.find('.') 
                             ticketPrice = (float(ticketPrice[:dotPosition+3]))
                             # ESCOLHA DE SALA E SUA CAPACIDADE
@@ -334,13 +338,13 @@ while True:
                             # EXIBIÇÃO DAS SALAS POR MEIO DE LOOP
                             for sala in movieRoom:
                                 if 'Sala' in sala:
-                                    imageSala = f'\033[34m{sala}, Capacidade: {movieRoom[sala]}\033[m'
+                                    imageSala = f'\033[34m{sala}, Capacidade: {movieRoom[sala]},\033[m'
                                 else:
                                     if movieRoom[sala] != 1:
-                                        imageSala += ', Sala: LIVRE!'
+                                        imageSala += '\033[36m Sala: LIVRE!\033[m'
                                         print(imageSala)
                                     else:
-                                        imageSala += ', Sala: OCUPADA!'    
+                                        imageSala += '\033[31m Sala: OCUPADA!\033[m'    
                                         print(imageSala)
                             print('\n')
                             # LOOP DE SELEÇÃO DE SALAS
@@ -354,19 +358,19 @@ while True:
                                             movieRoom[occupationRoom] = 1
                                             recognizedRoom = False
                                         else:
-                                            print('A sala está ocupada')         
+                                            print('\033[31mA sala está ocupada\033[m')         
                                             
                             while True:
                             
                                 movieTime = input(f'\033[34mDigite o horário que o filme vai passar na {'a'} [HH:MM]: \033[m')
                                 if len(movieTime) == 5 and movieTime[2] == ':':
                                     movieTime = movieTime[:2] + movieTime[3:]
-                                    if movieTime.isdigit() == True and (movieTime[:2] >= '00' and movieTime[:2] < '24') and (movieTime[2:] >= '00' and movieTime[2:] < '60'):
+                                    if movieTime.isdigit() and (movieTime[:2] >= '00' and movieTime[:2] < '24') and (movieTime[2:] >= '00' and movieTime[2:] < '60'):
                                         break
                                     else:
-                                        print('Horário Inválido')
+                                        print('\033[31mHorário Inválido\033[m')
                                 else:
-                                    print('Horário Inválido')
+                                    print('\033[31mHorário Inválido\033[m')
 
                             ratingTomato = movieDuration[0] + movieTime[1] + '%'
         
@@ -381,5 +385,53 @@ while True:
                             movie['time'] = movieTime
                             movie['rating'] = ratingTomato
                             movies.append(movie.copy())
+                            
+                        elif actionMenu == 2:
+                            print('\033[35m=' * 50 )
+                            print('BUSCAR FILME'.center(50))
+                            print('=' * 50 ,'\033[36m \n')
+                            searchMethod = int(input('\33[34mQual método deseja utilizar para buscar o filme? \n[1] - Título \n[2] - Gênero \nOpção: \33[m'))
+                            if searchMethod == 1:
+                                searchMovieTitle = input('\33[34mQual o título do filme? \33[m')
+                                for movie in movies:
+                                    if movie['title'] == searchMovieTitle:
+                                        print(f'\33[36mTítulo do filme: {movie['title']}\nGênero do filme: {movie['genre']}\nSinopse do Filme: {movie['sinopse']}\nFaixa etária permitida: {movie['ageRating']}\nDuração: {movie['hours']} Horas e {movie['minutes']} Minutos\nPreço do ingresso: R${movie['price']}\nSala: {movie['room']}\nHorário de streaming: {movie['time']}\nAvaliação: {movie['rating']}\33[m')
+                            elif searchMethod == 2:
+                                searchMovieGenre = input('\33[34mQual o gênero do filme? \33[m')
+                                for movie in movies:
+                                    if movie['genre'] == searchMovieGenre:
+                                        print(f'\33[36mTítulo do filme: {movie['title']}\nGênero do filme: {movie['genre']}\nSinopse do Filme: {movie['sinopse']}\nFaixa etária permitida: {movie['ageRating']}\nDuração: {movie['hours']} Horas e {movie['minutes']} Minutos\nPreço do ingresso: R${movie['price']}\nSala: {movie['room']}\nHorário de streaming: {movie['time']}\nAvaliação: {movie['rating']}\33[m')
+                            else:
+                                print('\33[31mDigite uma opção válida!\33[m')
+                                
+                        elif actionMenu == 3:
+                            print('\033[35m=' * 50 )
+                            print('REMOVER FILME'.center(50))
+                            print('=' * 50 ,'\033[36m \n')
+                            
+                            contMovies = 0
+                            for movie in movies:
+                                        print(f'\33[34mFilme {contMovies+1}\33[m: \33[36m{movie['title']}\33[m')
+                                        contMovies += 1
+                            delMovie = input('\33[34mDigite o título do filme deseja remover:  \33[m')
+                            contIndexDel = 0
+                            for movie in movies:
+                                if movie['title'] == delMovie:
+                                    movieRoom[occupationRoom] = 0
+                                    del movies[contIndexDel]
+                                    print('\33[36mFilme Removido!\33[m')
+                                contIndexDel += 1
+                        
+                        elif actionMenu == 4:
+                            print('\033[35m=' * 50 )
+                            print('ATUALIZAR FILME'.center(50))
+                            print('=' * 50 ,'\033[36m \n')
+                            
+                            contMovies = 0
+                            for movie in movies:
+                                        print(f'\33[34mFilme {contMovies+1}\33[m: \33[36m{movie['title']}\33[m')
+                                        contMovies += 1
+                            attMovie = input('\33[34mDigite o título do filme deseja atualizar:  \33[m')
+                            pass
     else:
         pass
