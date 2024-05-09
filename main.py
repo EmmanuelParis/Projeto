@@ -10,16 +10,19 @@ usuarios = [{
 movies = [{
     'title' : 'abc',
     'genre' : 'ação',
-    'sinopse' : 'muito doido abc',
-    'ageRating' : '17',
-    'release' : '23/12/2003',
-    'duration' : '120',
+    'sinopse' :'''No filme "Perdido em Código", mergulhe em um universo onde a linha entre realidade e virtualidade se desfaz. 
+A trama acompanha Wellington, um talentoso programador em busca de uma solução revolucionária para um problema que assola a humanidade. 
+Porém, durante um teste crucial de seu programa, ele é subitamente transportado para dentro do código, 
+encontrando-se perdido em um mundo digital labiríntico, onde cada linha de código é uma realidade distinta.''',
+    'ageRating' : '14',
+    'release' : '01/12/2020',
+    'duration' : '150',
     'hours' : '2',
-    'minutes' : '0',
-    'price'  : '4.50',
+    'minutes' : '30',
+    'price'  : '24.99',
     'room' : 'Sala D',
     'time' : '1200',
-    'rating' : '18',
+    'rating' : '99%',
 }]
 
 controlMovieeRooms = {
@@ -69,6 +72,25 @@ while True:
     print('\033[34m[1] - CATÁLOGO \n[2] - LOGIN \n[3] - CADASTRO \n[0] - SAIR\033[m\n')
 
     option = int(input('\033[32mOpção: \033[m'))
+    
+# SISTEMA DE CATÁLOGO
+    if (option == 1):
+        print("\033[H\033[J", end="")
+        print('\033[35m=' * 50 )
+        print('CATÁLOGO DE FILMES'.center(50))
+        print('=' * 50 ,'\033[36m \n')
+        contMovies = 0
+        print(f'\33[34m--- Filmes Disponíveis ---\33[m\n')
+        for movie in movies:
+            print(f'\33[34mFilme {contMovies+1}\33[m: \33[36m{movie['title']}\33[m')
+            contMovies += 1
+        movieCatalog = input('\n\33[34mQual filme deseja visualizar? \nFilme: \033[m')
+        for movie in movies:
+            if movie['title'] == movieCatalog:
+                print('\033[36m=' * 50) 
+                print(f'\33[36mTítulo do filme: {movie['title']}\nGênero do filme: {movie['genre']}\nSinopse do Filme: {movie['sinopse']}\nFaixa etária permitida: {movie['ageRating']}\nData de lançamento: {movie['release']}\nDuração: {movie['hours']} Hora(s) e {movie['minutes']} Minuto(s)\nPreço do ingresso: R${movie['price']}\nSala: {movie['room']}\nHorário de streaming: {movie['time'][0:2] + ':' + movie['time'][2:]}\nAprovação: {movie['rating']}\33[m')
+                print('\033[36m=' * 50)
+                input('\033[mPressione qualquer tecla para continuar!')
     
 # SISTEMA DE LOGIN
     if (option == 2):
@@ -256,7 +278,7 @@ while True:
                         print('<--------------->'.center(50))
                         print('MENU CLIENTES'.center(50))
                         print('=' * 50 ,'\033[36m \n')
-                        print(f'Cash: {pearson['bank']}\n')
+                        print(f'Cash: {round(pearson['bank'],2)}\n')
                         actionMenu = int(input('\033[34mO que deseja fazer? \n[1] - Depositar Dinheiro \n[2] - Comprar Ingresso \n[3] - Avaliar Filme \n[0] - Deslogar \n\nOpção: \033[m'))
 
                         if actionMenu == 0:
@@ -267,70 +289,87 @@ while True:
                         # DEPOSITO DE DINHEIRO DO USUARIO
                         elif actionMenu == 1:
                             while True:
-                                deposite = input('Digite o valor que deseja depositar: ')
-                                if deposite.isdigit() or deposite.isdecimal():
-                                    deposite = float(deposite)
-                                    pearson['bank'] = deposite
-                                    print('Deposito realizado com sucesso!')
+                                deposit = input('\033[34mDigite o valor que deseja depositar: \033[m')
+                                if deposit.isdigit() or deposit.isdecimal():
+                                    deposit = float(deposit)
+                                    pearson['bank']+= deposit
+                                    print('\033[36mDepósito realizado com sucesso!\033[m')
                                     break
                                 else:
-                                    print('Valor informado invalido!')
+                                    print('\033[31mValor informado invalido!\033[m')
                         # COMPRA DE INGRESSO E EXEBIÇÃO DAS CADEIRA
                         elif actionMenu == 2:
+                            recognizedBought = True
                             contMovies = 0
-                            print(f'\33[34m~~ Filmes Catalogados ~~\33[m')
+                            print(f'\033[34m--- Filmes Catalogados ---\033[m')
                             for movie in movies:
-                                        print(f'\33[34mFilme {contMovies+1}\33[m: \33[36m{movie['title']}\33[m')
+                                        print(f'\033[34mFilme {contMovies+1}\033[m: \033[36m{movie['title']}\033[m')
+                                        print(f'\033[34mValor do Ingresso: \033[36mR${movie['price']}\033[m')
+                                        print(f'\033[34mSala: \033[36m{movie['room']}\033[m')
+                                        print(f'\033[34mHorário: \033[36m{movie['time'][0:2] + ':' + movie['time'][2:]}\033[m')
+                                        print(f'\033[34m-------------------------\033[m')
+                                        print('\n')
                                         contMovies += 1
-                            while True:
-                                selectFilme = input('Informe qual dos filmes deseja comprar o ingresso: ')
-                                for movie in movies:
-                                    #EXIBIÇÃO DAS CADEIRAS E ESCOLHA DO ASSENTO
-                                    if movie['title'] == selectFilme:
-                                        salaSelected = movie['room']
-                                        while True:
-                                            recognizedBuyChairs = True
-                                            for key in list(movieRoom.keys()):
-                                                if salaSelected == key:
-                                                    print('entrei na condição que bate a sala com a chave')
-                                                    for controlChairs in chairsMovieRoom[key]:
-                                                        if controlChairs['busy'] != False:
-                                                            controlChairs['seatNumber'] = 'XX'
-                                                            
-                                                            if (controlChairs['indexChair']) % 5 == 0:
-                                                                print(f'[{controlChairs["seatNumber"]}]\n')
-                                                            else:
-                                                                print(f'[{controlChairs["seatNumber"]}]', end=' ')
-                                                            
-                                                        else:    
-                                                            if (controlChairs['indexChair']) % 5 == 0 and controlChairs['indexChair'] < 9:
-                                                                print(f'[0{controlChairs["seatNumber"]+1}]\n')
-                                                            elif (controlChairs['indexChair']) % 5 == 0:
-                                                                print(f'[{controlChairs["seatNumber"]+1}]\n')
-                                                            elif (controlChairs['indexChair']) < 10:
-                                                                print(f'[0{controlChairs["seatNumber"]+1}]', end =' ')
-                                                            else:
-                                                                print(f'[{controlChairs["seatNumber"]+1}]', end =' ')
+                            while recognizedBought:
+                                showMatrix = True
+                                selectFilme = input('\033[34mInforme qual dos filmes deseja comprar o ingresso ou "sair" para voltar: \033[m').lower()
+                                
+                                if selectFilme == 'sair':
+                                    recognizedBought = False
+                                else:
+                                    print('\n')
+                                    for movie in movies:
+                                        #EXIBIÇÃO DAS CADEIRAS E ESCOLHA DO ASSENTO
+                                        if movie['title'].lower() == selectFilme and pearson['bank'] >= float(movie['price']):
+                                            salaSelected = movie['room']
+                                            while showMatrix:
+                                                recognizedBuyChairs = True
+                                                for key in list(movieRoom.keys()):
+                                                    if salaSelected == key:
+                                                        for controlChairs in chairsMovieRoom[key]:
+                                                            if controlChairs['busy'] != False:
+                                                                controlChairs['seatNumber'] = '\033[31mXX\033[m'
                                                                 
-                                                    while recognizedBuyChairs:
-                                                        buyChair = int(input('\nDigite o número da cadeira que deseja comprar: '))
-                                                        print(buyChair)
-                                                        for keyRoom in list(chairsMovieRoom.keys()):
-                                                            if keyRoom == salaSelected:
-                                                                if buyChair == 0 or buyChair > movieRoom[keyRoom]:
-                                                                    print('Cadeira invalida')
+                                                                if (controlChairs['indexChair']) % 5 == 0:
+                                                                    print(f'[{controlChairs["seatNumber"]}]\n')
                                                                 else:
-                                                                    for keysRoomChair in chairsMovieRoom[key]:
-                                                                        if keysRoomChair['indexChair'] == (buyChair):
-                                                                            if keysRoomChair['busy'] != True:
-                                                                                print('Cadeira comprada com sucesso')
-                                                                                keysRoomChair['busy'] = True
-                                                                                recognizedBuyChairs = False
-                                                                                break
-                                                                            else:
-                                                                                print('Cadeira ocupada, não pode ser comprada')
-                                    else:
-                                        print('Filme informado invalido!')
+                                                                    print(f'[{controlChairs["seatNumber"]}]', end=' ')
+                                                                
+                                                            else:    
+                                                                if (controlChairs['indexChair']) % 5 == 0 and controlChairs['indexChair'] < 9:
+                                                                    print(f'[0{controlChairs["seatNumber"]+1}]\n')
+                                                                elif (controlChairs['indexChair']) % 5 == 0:
+                                                                    print(f'[{controlChairs["seatNumber"]+1}]\n')
+                                                                elif (controlChairs['indexChair']) < 10:
+                                                                    print(f'[0{controlChairs["seatNumber"]+1}]', end =' ')
+                                                                else:
+                                                                    print(f'[{controlChairs["seatNumber"]+1}]', end =' ')
+                                                                    
+                                                        while recognizedBuyChairs:
+                                                            buyChair = int(input('\033[34m\nDigite o número da cadeira que deseja comprar ou 0 para voltar: \033[m'))
+                                                            if buyChair == 0:
+                                                                showMatrix = False
+                                                                recognizedBuyChairs = False
+                                                            else:
+                                                                for keyRoom in list(chairsMovieRoom.keys()):
+                                                                    if keyRoom == salaSelected:
+                                                                        if buyChair > movieRoom[keyRoom]:
+                                                                            print('\n\033[31mCadeira inválida!\033[m')
+                                                                        else:
+                                                                            for keysRoomChair in chairsMovieRoom[key]:
+                                                                                if keysRoomChair['indexChair'] == (buyChair):
+                                                                                    if keysRoomChair['busy'] != True:
+                                                                                        print('\n\033[34mCadeira comprada com sucesso!\033[m')
+                                                                                        pearson['bank'] -= float(movie['price'])
+                                                                                        keysRoomChair['busy'] = True
+                                                                                        recognizedBuyChairs = False
+                                                                                        break
+                                                                                    else:
+                                                                                        print('\n\033[31mCadeira ocupada, não pode ser comprada!\033[m')
+                                        else:
+                                            print('\033[31mFilme inválido ou Saldo insuficiente!\033[m')
+                                            input('\033[mPressione qualquer tecla para continuar!')
+                                            recognizedBought = False
                             
 
                     
@@ -440,10 +479,16 @@ while True:
                                 else:
                                     print('\033[31mData informada inválida!\033[m')
                             
-                            ticketPrice = input('\033[34mDigite o valor do ingresso: \033[m')
-                            # FILTRAGEM DOS DOIS NÚMEROS APÓS A VÍRGULA E TRANSFORMANDO A STRING EM FLOAT
-                            dotPosition = ticketPrice.find('.') 
-                            ticketPrice = (float(ticketPrice[:dotPosition+3]))
+                            while True:
+                                ticketPrice = input('\033[34mDigite o valor do ingresso: \033[m')
+                                if ticketPrice.isdigit() or ticketPrice.isdecimal():
+                                    # FILTRAGEM DOS DOIS NÚMEROS APÓS A VÍRGULA E TRANSFORMANDO A STRING EM FLOAT
+                                    dotPosition = ticketPrice.find('.') 
+                                    ticketPrice = (float(ticketPrice[:dotPosition+3]))
+                                    break
+                                else:
+                                    print('\033[31mDigite um número!\033[m')
+                                    ticketPrice = input('\033[34mDigite o valor do ingresso: \033[m')
                             # ESCOLHA DE SALA E SUA CAPACIDADE
                             print('\n')
                             print('\033[35m=' * 50 )
@@ -517,7 +562,7 @@ while True:
                                 for movie in movies:
                                     if movie['title'] == searchMovieTitle:
                                         print('\033[36m=' * 50) 
-                                        print(f'\33[36mTítulo do filme: {movie['title']}\nGênero do filme: {movie['genre']}\nSinopse do Filme: {movie['sinopse']}\nFaixa etária permitida: {movie['ageRating']}\nData de lançamento: {movie['release']}\nDuração: {movie['hours']} Hora(s) e {movie['minutes']} Minuto(s)\nPreço do ingresso: R${movie['price']}\nSala: {movie['room']}\nHorário de streaming: {movie['time']}\nAvaliação: {movie['rating']}\33[m')
+                                        print(f'\33[36mTítulo do filme: {movie['title']}\nGênero do filme: {movie['genre']}\nSinopse do Filme: {movie['sinopse']}\nFaixa etária permitida: {movie['ageRating']}\nData de lançamento: {movie['release']}\nDuração: {movie['hours']} Hora(s) e {movie['minutes']} Minuto(s)\nPreço do ingresso: R${movie['price']}\nSala: {movie['room']}\nHorário de streaming: {movie['time']}\nAprovação: {movie['rating']}\33[m')
                                         print('\033[36m=' * 50)
                                         input('Pressione qualquer tecla para continuar!')
                             elif searchMethod == 2:
@@ -525,7 +570,7 @@ while True:
                                 for movie in movies:
                                     if movie['genre'] == searchMovieGenre:
                                         print('\033[36m=' * 50)
-                                        print(f'\33[36mTítulo do filme: {movie['title']}\nGênero do filme: {movie['genre']}\nSinopse do Filme: {movie['sinopse']}\nFaixa etária permitida: {movie['ageRating']}\nData de lançamento: {movie['release']}\nDuração: {movie['hours']} Hora(s) e {movie['minutes']} Minuto(s)\nPreço do ingresso: R${movie['price']}\nSala: {movie['room']}\nHorário de streaming: {movie['time']}\nAvaliação: {movie['rating']}\33[m')
+                                        print(f'\33[36mTítulo do filme: {movie['title']}\nGênero do filme: {movie['genre']}\nSinopse do Filme: {movie['sinopse']}\nFaixa etária permitida: {movie['ageRating']}\nData de lançamento: {movie['release']}\nDuração: {movie['hours']} Hora(s) e {movie['minutes']} Minuto(s)\nPreço do ingresso: R${movie['price']}\nSala: {movie['room']}\nHorário de streaming: {movie['time']}\nAprovação: {movie['rating']}\33[m')
                                         print('\033[36m=' * 50,'\033[36m \n')
                                         input('Pressione qualquer tecla para continuar!')
                             else:
