@@ -3,19 +3,56 @@ usuarios = [{
     'password' : '123',
     'age' : 18,
     'email' : 'emmanuel@gmail.com',
-    'id' : 1
+    'id' : 0,
+    'bank' : 0,
     }]
 
-movies = list()
+movies = [{
+    'title' : 'abc',
+    'genre' : 'ação',
+    'sinopse' : 'muito doido abc',
+    'ageRating' : '17',
+    'release' : '23/12/2003',
+    'duration' : '120',
+    'hours' : '2',
+    'minutes' : '0',
+    'price'  : '4.50',
+    'room' : 'Sala A',
+    'time' : '1200',
+    'rating' : '18',
+}]
 
-movieRoom = {
-    'Sala A' : 40, 'occupation A' : 0,
-    'Sala B' : 60, 'occupation B' : 0,
-    'Sala C' : 40, 'occupation C' : 0,
-    'Sala D' : 60, 'occupation D' : 0,
+controlMovieeRooms = {
+    'Sala A' : {},
+    'Sala B' : {},
+    'Sala C' : {},
+    'Sala D' : {},
 }
 
+movieRoom = {
+    'Sala A' : 30, 'occupation A' : 0,
+    'Sala B' : 40, 'occupation B' : 0,
+    'Sala C' : 30, 'occupation C' : 0,
+    'Sala D' : 40, 'occupation D' : 0,
+}
 
+chairsMovieRoom = {
+    'Sala A' : [],
+    'Sala B' : [],
+    'Sala C' : [],
+    'Sala D' : [],
+}
+
+for key in list(movieRoom.keys()):
+        if 'Sala' in key:
+            for numberChair in range(movieRoom[key]):
+                chairStatus = dict()
+                chairStatus['seatNumber'] = numberChair
+                chairStatus['busy'] = False
+                chairStatus['indexChair'] = numberChair + 1
+                chairsMovieRoom[key].append(chairStatus)
+
+recognizedBuyChairs = True
 recognized = False
 recognizedRoom = True
 while True:
@@ -196,6 +233,7 @@ while True:
         usuario['age'] = age
         usuario['email'] = userEmail
         usuario['id'] = id
+        usuario['bank'] = 0
         usuarios.append(usuario)
         
         print('\033[36mCadastro concluido com Sucesso!\033[m')
@@ -212,12 +250,13 @@ while True:
         for pearson in usuarios:
             if pearson['user'] == username:
                 if pearson['id'] == 0:
-                    print('\033[35m=' * 50 )
-                    print('CINE SERTÃO'.center(50))
-                    print('<--------------->'.center(50))
-                    print('MENU CLIENTES'.center(50))
-                    print('=' * 50 ,'\033[36m \n')
                     while True:
+                        print('\033[35m=' * 50 )
+                        print('CINE SERTÃO'.center(50))
+                        print('<--------------->'.center(50))
+                        print('MENU CLIENTES'.center(50))
+                        print('=' * 50 ,'\033[36m \n')
+                        print(f'Cash: {pearson['bank']}\n')
                         actionMenu = int(input('\033[34mO que deseja fazer? \n[1] - Depositar Dinheiro \n[2] - Comprar Ingresso \n[3] - Avaliar Filme \n[0] - Deslogar \n\nOpção: \033[m'))
 
                         if actionMenu == 0:
@@ -225,6 +264,74 @@ while True:
                             if logOff == 1:
                                 recognized = False
                                 break
+                        # DEPOSITO DE DINHEIRO DO USUARIO
+                        elif actionMenu == 1:
+                            while True:
+                                deposite = input('Digite o valor que deseja depositar: ')
+                                if deposite.isdigit() or deposite.isdecimal():
+                                    deposite = float(deposite)
+                                    pearson['bank'] = deposite
+                                    print('Deposito realizado com sucesso!')
+                                    break
+                                else:
+                                    print('Valor informado invalido!')
+                        # COMPRA DE INGRESSO E EXEBIÇÃO DAS CADEIRA
+                        elif actionMenu == 2:
+                            contMovies = 0
+                            print(f'\33[34m~~ Filmes Catalogados ~~\33[m')
+                            for movie in movies:
+                                        print(f'\33[34mFilme {contMovies+1}\33[m: \33[36m{movie['title']}\33[m')
+                                        contMovies += 1
+                            while True:
+                                selectFilme = input('Informe qual dos filmes deseja comprar o ingresso: ')
+                                for movie in movies:
+                                    #EXIBIÇÃO DAS CADEIRAS E ESCOLHA DO ASSENTO
+                                    if movie['title'] == selectFilme:
+                                        salaSelected = movie['room']
+                                        while True:
+                                            recognizedBuyChairs = True
+                                            for key in list(chairsMovieRoom.keys()):
+                                                if salaSelected == key:
+                                                    for controlChairs in chairsMovieRoom[key]:
+                                                        if controlChairs['busy'] != False:
+                                                            controlChairs['seatNumber'] = 'XX'
+                                                            
+                                                            if (controlChairs['indexChair']) % 5 == 0:
+                                                                print(f'[{controlChairs["seatNumber"]}]\n')
+                                                            else:
+                                                                print(f'[{controlChairs["seatNumber"]}]', end=' ')
+                                                            
+                                                        else:    
+                                                            if (controlChairs['indexChair']) % 5 == 0 and controlChairs['indexChair'] < 9:
+                                                                print(f'[0{controlChairs["seatNumber"]+1}]\n')
+                                                            elif (controlChairs['indexChair']) % 5 == 0:
+                                                                print(f'[{controlChairs["seatNumber"]+1}]\n')
+                                                            elif (controlChairs['indexChair']) < 10:
+                                                                print(f'[0{controlChairs["seatNumber"]+1}]', end =' ')
+                                                            else:
+                                                                print(f'[{controlChairs["seatNumber"]+1}]', end =' ')
+                                                                
+                                                while recognizedBuyChairs:
+                                                    buyChair = int(input('\nDigite o número da cadeira que deseja comprar: '))
+                                                    print(buyChair)
+                                                    for keyRoom in list(chairsMovieRoom.keys()):
+                                                        if keyRoom == salaSelected:
+                                                            if buyChair == 0 or buyChair > movieRoom[keyRoom]:
+                                                                print('Cadeira invalida')
+                                                            else:
+                                                                for keysRoomChair in chairsMovieRoom[key]:
+                                                                    if keysRoomChair['indexChair'] == (buyChair):
+                                                                        if keysRoomChair['busy'] != True:
+                                                                            print('Cadeira comprada com sucesso')
+                                                                            keysRoomChair['busy'] = True
+                                                                            recognizedBuyChairs = False
+                                                                            break
+                                                                        else:
+                                                                            print('Cadeira ocupada, não pode ser comprada')
+                                    else:
+                                        print('Filme informado invalido!')
+                            
+
                     
 # CRUD - ADMIN
                 elif pearson['id'] == 1:
@@ -236,7 +343,7 @@ while True:
                         print('MENU ADMIN'.center(50))
                         print('=' * 50 ,'\033[36m')
                         print('\n')
-                        actionMenu = int(input('\033[34mO que deseja fazer? \n[1] - Cadastrar Filme \n[2] - Buscar Filme \n[3] - Remover Filme \n[4] - Atualizar Filme \n[5] - Controle e Feedback \n[0] - Deslogar \n\nOpção: \033[m'))
+                        actionMenu = int(input('\033[34mO que deseja fazer? \n[1] - Cadastrar Filme \n[2] - Buscar Filme \n[3] - Remover Filme \n[4] - Atualizar Filme \n[5] - Gestão dos filmes \n[6] - Feedbacks dos filmes \n[0] - Deslogar \n\nOpção: \033[m'))
                         print('\n')
                         
                         if actionMenu == 0:
@@ -493,15 +600,20 @@ while True:
                                         movie['release'] = newDate
                                     elif attType == 7:
                                         print(f'\33[33mSala Atual: {movie['room']}\33[m')
-                                        movieRoom[occupationRoom] = 0
+                                        occupationRoom = 'occupation ' + movie['room'][-1].upper()
+                                        # movieRoom[occupationRoom] = 0
                                         newRoom = input('\33[34mDigite a nova sala: \33[m').upper()
-                                        occupationRoom = 'occupation ' + newRoom
+                                        newOccupationRoom = 'occupation ' + newRoom
                                         newRoom = 'Sala ' + newRoom
                                         for sala in movieRoom:
                                             if newRoom == sala:
-                                                if movieRoom[occupationRoom] == 0:
-                                                    movieRoom[occupationRoom] = 1
+                                                if movieRoom[occupationRoom] == 1 and movieRoom[newOccupationRoom] == 1:
+                                                    print('As duas salas estão ocupadas, é impossível fazer a troca.')
+                                                elif movieRoom[occupationRoom] == 1 and movieRoom[newOccupationRoom] == 0:
+                                                    movieRoom[occupationRoom] = 0
+                                                    movieRoom[newOccupationRoom] = 1
                                                     movie['room'] = newRoom
+                                                    print('Troca das salas realizada com sucesso!')
                                                 else:
                                                     print('\033[31mA sala está ocupada\033[m')
                                     elif attType == 8:
@@ -515,8 +627,29 @@ while True:
                                     else:
                                         print('\33[31mDigite uma opção válida!\33[m')
                                 input('Pressione qualquer tecla para continuar!')
-                        # GESTÃO E FEEDBACK
+                        # GESTÃO E CONTROLE DE ASSENTOS
                         elif actionMenu == 5:
-                            pass           
+                            print("\033[H\033[J", end="")
+                            print('\033[35m=' * 50 )
+                            print('GESTÃO DOS FILMES'.center(50))
+                            print('=' * 50 ,'\033[36m \n')
+                            
+                            while True:
+                                actionMenu = int(input('\033[34mO que deseja fazer? \n[1] - Filmes mais Vendidos \n[2] - Controle de assentos livres \n[0] - Voltar \n\nOpção: \033[m'))
+
+                                if (actionMenu == 0):
+                                    break
+                                elif (actionMenu == 1):
+                                    #FILMES MAIS VENDIDOS
+                                    pass
+                                elif (actionMenu == 2):
+                                    #CONTROLE DE ASSENTOS
+                                    pass
+                                else:
+                                    print('Opção digitada invalida')
+                        #GESTOR DE FEEDBACKS DO CLIENTE
+                        elif actionMenu == 6:
+                            pass
+
     else:
         pass
