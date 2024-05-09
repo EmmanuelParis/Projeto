@@ -17,7 +17,7 @@ movies = [{
     'hours' : '2',
     'minutes' : '0',
     'price'  : '4.50',
-    'room' : 'Sala A',
+    'room' : 'Sala D',
     'time' : '1200',
     'rating' : '18',
 }]
@@ -290,8 +290,9 @@ while True:
                                         salaSelected = movie['room']
                                         while True:
                                             recognizedBuyChairs = True
-                                            for key in list(chairsMovieRoom.keys()):
+                                            for key in list(movieRoom.keys()):
                                                 if salaSelected == key:
+                                                    print('entrei na condição que bate a sala com a chave')
                                                     for controlChairs in chairsMovieRoom[key]:
                                                         if controlChairs['busy'] != False:
                                                             controlChairs['seatNumber'] = 'XX'
@@ -311,23 +312,23 @@ while True:
                                                             else:
                                                                 print(f'[{controlChairs["seatNumber"]+1}]', end =' ')
                                                                 
-                                                while recognizedBuyChairs:
-                                                    buyChair = int(input('\nDigite o número da cadeira que deseja comprar: '))
-                                                    print(buyChair)
-                                                    for keyRoom in list(chairsMovieRoom.keys()):
-                                                        if keyRoom == salaSelected:
-                                                            if buyChair == 0 or buyChair > movieRoom[keyRoom]:
-                                                                print('Cadeira invalida')
-                                                            else:
-                                                                for keysRoomChair in chairsMovieRoom[key]:
-                                                                    if keysRoomChair['indexChair'] == (buyChair):
-                                                                        if keysRoomChair['busy'] != True:
-                                                                            print('Cadeira comprada com sucesso')
-                                                                            keysRoomChair['busy'] = True
-                                                                            recognizedBuyChairs = False
-                                                                            break
-                                                                        else:
-                                                                            print('Cadeira ocupada, não pode ser comprada')
+                                                    while recognizedBuyChairs:
+                                                        buyChair = int(input('\nDigite o número da cadeira que deseja comprar: '))
+                                                        print(buyChair)
+                                                        for keyRoom in list(chairsMovieRoom.keys()):
+                                                            if keyRoom == salaSelected:
+                                                                if buyChair == 0 or buyChair > movieRoom[keyRoom]:
+                                                                    print('Cadeira invalida')
+                                                                else:
+                                                                    for keysRoomChair in chairsMovieRoom[key]:
+                                                                        if keysRoomChair['indexChair'] == (buyChair):
+                                                                            if keysRoomChair['busy'] != True:
+                                                                                print('Cadeira comprada com sucesso')
+                                                                                keysRoomChair['busy'] = True
+                                                                                recognizedBuyChairs = False
+                                                                                break
+                                                                            else:
+                                                                                print('Cadeira ocupada, não pode ser comprada')
                                     else:
                                         print('Filme informado invalido!')
                             
