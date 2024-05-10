@@ -273,6 +273,7 @@ while True:
             if pearson['user'] == username:
                 if pearson['id'] == 0:
                     while True:
+                        print("\033[H\033[J", end="")
                         print('\033[35m=' * 50 )
                         print('CINE SERTÃO'.center(50))
                         print('<--------------->'.center(50))
@@ -289,6 +290,10 @@ while True:
                         # DEPOSITO DE DINHEIRO DO USUARIO
                         elif actionMenu == 1:
                             while True:
+                                print("\033[H\033[J", end="")
+                                print('\033[35m=' * 50 )
+                                print('DEPOSITAR DINHEIRO'.center(50))
+                                print('=' * 50 ,'\033[36m \n')
                                 deposit = input('\033[34mDigite o valor que deseja depositar: \033[m')
                                 if deposit.isdigit() or deposit.isdecimal():
                                     deposit = float(deposit)
@@ -348,6 +353,11 @@ while True:
                                                         while recognizedBuyChairs:
                                                             buyChair = int(input('\033[34m\nDigite o número da cadeira que deseja comprar ou 0 para voltar: \033[m'))
                                                             if buyChair == 0:
+                                                                showMatrix = False
+                                                                recognizedBuyChairs = False
+                                                            elif pearson['bank'] < float(movie['price']):
+                                                                print('\033[31mSaldo insuficiente!\033[m')
+                                                                input('\033[mPressione qualquer tecla para continuar!')
                                                                 showMatrix = False
                                                                 recognizedBuyChairs = False
                                                             else:
