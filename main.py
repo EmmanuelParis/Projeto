@@ -668,6 +668,8 @@ while True:
                             contIndexDel = 0
                             for movie in movies:
                                 if movie['title'] == delMovie:
+                                    indexRoom = movie['room'][-1]
+                                    occupationRoom = str(f'occupation {indexRoom}')
                                     movieRoom[occupationRoom] = 0
                                     del movies[contIndexDel]
                                     print('\33[36mFilme Removido!\33[m')
@@ -763,6 +765,7 @@ while True:
                                     break
                                 elif (actionMenu == 1):
                                     #FILMES MAIS VENDIDOS
+                                    majorTitle = 'abc'
                                     majorSeller = movieRoom['bought A']
                                     majorRoom = 'Sala A'
                                     for key in list(movieRoom.keys()):
