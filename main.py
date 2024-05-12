@@ -166,14 +166,14 @@ while True:
         #CHECAGEM DA DATA DE NASCIMENTO
         while (dataCorrect != True):
 
-            age = str(input('\033[34mDigite a sua idade: \033[m'))
+            age = int(input('\033[34mDigite a sua idade: \033[m'))
 
             if (age >= 6) and (age < 89):
                 dataCorrect = True
             elif (age < 6):
-                print('O usuário é muito novo para possuir cadastro')
+                print('\033O usuário é muito novo para possuir cadastro\033')
             else:
-                print('Usuario muito velho para possui cadastro')
+                print('\033Usuario muito velho para possui cadastro\033')
 
 
                 
