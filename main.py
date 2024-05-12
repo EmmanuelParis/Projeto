@@ -166,72 +166,16 @@ while True:
         #CHECAGEM DA DATA DE NASCIMENTO
         while (dataCorrect != True):
 
-            birthdate = str(input('\033[34mDigite a data de nascimento [dd/mm/aaaa]: \033[m'))
-            #CONDIÇÃO DE FILTRAGEM SEM AS BARRAS
-            if (len(birthdate) == 8 and len(birthdate) > 0):
-                birthdate = "/".join([birthdate[:2], birthdate[2:]])
-                birthdate = "/".join([birthdate[:5], birthdate[5:]])
+            age = str(input('\033[34mDigite a sua idade: \033[m'))
 
-                birthdateYear = int(birthdate[6:])
-                birthdateDay = int(birthdate[0:2])
-                birthdateMonth = int(birthdate[3:5])
-                #CHECAGEM SE O ANO É VALIDO
-                if((birthdateYear < 1944) or (birthdateYear> 2024)):
-                    print('\033[33mTem certeza que você está vivo?\033[m')
-                #CHECAGEM SE O MES É VALIDO
-                elif((birthdateMonth) <= 0 or (birthdateMonth > 12)):
-                    print('\033[31mMês digitado inválido\033[m')
-                #CHECAGEM SE O DIA É VALIDO
-                elif((birthdateDay > 0) and (birthdateDay <= 31)):
-                    #CHECAGEM DE ANO BISSEXTO
-                    if (birthdateDay == 29 and birthdateMonth == 2):
-                        if (birthdateYear % 4 == 0 and birthdateYear % 100 != 0) or (birthdateYear % 400 == 0):
-                            dataCorrect = True
-                        else:
-                            print('\033[31mData informada inválida!\033[m')
-                    elif ((birthdateMonth in thirtyDaysMonth) and birthdateDay < 31):
-                            dataCorrect = True
-                    elif ((birthdateMonth not in thirtyDaysMonth) and birthdateDay <= 31):
-                            if (birthdateMonth == 2 and birthdateDay > 28):
-                                print('\033[31mData informada inválida!\033[m')
-                            else:
-                                dataCorrect = True
-                    else:
-                        print('\033[31mData informada inválida!\033[m')
-                else:
-                    print('\033[31mData informada inválida!\033[m') 
-            #CONDIÇÃO DE FILTRAGEM COM AS BARRAS    
-            elif (len(birthdate) == 10 and birthdate[2] == '/' and birthdate[5] == '/'):
-                birthdateYear = int(birthdate[6:])
-                birthdateDay = int(birthdate[0:2])
-                birthdateMonth = int(birthdate[3:5])
-                #CHECAGEM SE O ANO É VALIDO
-                if((birthdateYear < 1944) or (birthdateYear> 2024)):
-                    print('\033[34mTem certeza que você está vivo?\033[m')
-                #CHECAGEM SE O MES É VALIDO
-                elif((birthdateMonth) <= 0 or (birthdateMonth > 12)):
-                    print('\033[31mMês digitado inválido\033[m')
-                #CHECAGEM SE O DIA É VALIDO
-                elif((birthdateDay > 0) and (birthdateDay <= 31)):
-                    #CHECAGEM DE ANO BISSEXTO
-                    if (birthdateDay == 29 and birthdateMonth == 2):
-                        if (birthdateYear % 4 == 0 and birthdateYear % 100 != 0) or (birthdateYear % 400 == 0):
-                            dataCorrect = True
-                        else:
-                            print('\033[31mData informada inválida!\033[m')
-                    elif ((birthdateMonth in thirtyDaysMonth) and birthdateDay < 31):
-                            dataCorrect = True
-                    elif ((birthdateMonth not in thirtyDaysMonth) and birthdateDay <= 31):
-                            if (birthdateMonth == 2 and birthdateDay > 28):
-                                print('\033[31mData informada inválida!\033[m')
-                            else:
-                                dataCorrect = True
-                    else:
-                        print('\033[31mData informada inválida!\033[m')
-                else:
-                    print('\033[31mData informada inválida!\033[m')          
+            if (age >= 6) and (age < 89):
+                dataCorrect = True
+            elif (age < 6):
+                print('O usuário é muito novo para possuir cadastro')
             else:
-                print('\033[31mData informada inválida!\033[m')
+                print('Usuario muito velho para possui cadastro')
+
+
                 
         #CHECAGEM DO EMAIL
         while (True):
@@ -259,7 +203,6 @@ while True:
             else:
                 print('\033[31mInforme uma opção válida\033[m')
                 
-        age = 2024 - birthdateYear
         usuario = dict()
         usuario['user'] = registerUser
         usuario['password'] = firstPassword
@@ -497,8 +440,11 @@ while True:
                                     releaseDay = int(releaseDate[0:2])
                                     releaseMonth = int(releaseDate[3:5])
                                     #CHECAGEM SE O ANO É VALIDO
-                                    if((releaseYear < 1944) or (releaseYear> 2024)):
-                                        print('\033[31mData informada inválida!\033[m')
+                                    if((releaseYear < 1944) or (releaseYear > 2025)):
+                                        if(releaseYear < 1944):
+                                            print('\033[31mSeu filme é muito antigo para passar aqui!\033[m')
+                                        else:
+                                            print('\033[31mFilme vai demorar muito para lançar!\033[m')
                                     #CHECAGEM SE O MES É VALIDO
                                     elif((releaseMonth) <= 0 or (releaseMonth > 12)):
                                         print('\033[31mMês digitado inválido\033[m')
@@ -527,8 +473,11 @@ while True:
                                     releaseDay = int(releaseDate[0:2])
                                     releaseMonth = int(releaseDate[3:5])
                                     #CHECAGEM SE O ANO É VALIDO
-                                    if((releaseYear < 1944) or (releaseYear> 2024)):
-                                        print('\033[31mData informada inválida!\033[m')
+                                    if((releaseYear < 1944) or (releaseYear > 2025)):
+                                        if(releaseYear < 1944):
+                                            print('\033[31mSeu filme é muito antigo para passar aqui!\033[m')
+                                        else:
+                                            print('\033[31mFilme vai demorar muito para lançar!\033[m')
                                     #CHECAGEM SE O MES É VALIDO
                                     elif((releaseMonth) <= 0 or (releaseMonth > 12)):
                                         print('\033[31mMês digitado inválido\033[m')
