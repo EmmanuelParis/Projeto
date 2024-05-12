@@ -134,6 +134,7 @@ while True:
         dataCorrect = False
         thirtyDaysMonth = [4,6,9,11]
         recognizedRegister = True
+        recognizedEmail = True
 
         while recognizedRegister:
             contUser = 0
@@ -178,12 +179,29 @@ while True:
 
                 
         #CHECAGEM DO EMAIL
-        while (True):
-            userEmail = input('\033[34mInforme seu email: \033[m').lower()
-            if(userEmail[-4:] == ".com" and (userEmail.count("@") == 1)):
-                break
+        while recognizedEmail:
+            contUser = 0
+            userEmail = str(input('\033[34mDigite seu E-mail: \033[m')).lower()
+            if (len(userEmail) < 2):
+                print('Email informado invalido')
             else:
-                print('\033[31mEmail informado errado\033[m')
+                if (len(usuarios) == 0):
+                    break
+                elif (len(usuarios) != 0):
+                    for user in usuarios:
+                        if (userEmail == user['email']):
+                            print('\033[31mE-mail já registrado!\033[m')
+                            print('\033[31mInsira um outro e-mail.\033[m')
+                            contUser += 1
+                            break
+                        else:
+                            recognizedEmail = True
+                    if (contUser == 0):
+                        if(userEmail[-4:] == ".com" and (userEmail.count("@") == 1)):
+                            break
+                        else:
+                            print('\033[31mEmail informado errado\033[m')
+                            recognizedEmail = True
         #CONTROLE DE ADMIN
         while(True):
             id = 0
