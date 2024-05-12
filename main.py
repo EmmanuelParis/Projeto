@@ -121,7 +121,7 @@ while True:
                         recognized = True
                         print('\033[32mVocê está logado!\033[m')
                 usercounter += 1
-            if usercounter == len(usuarios) and pearson['user'] != username:
+            if usercounter == len(usuarios) or pearson['user'] != username:
                 print('\033[31mUsuário não encontrado\033[m')
                 
 # SISTEMA DE CADASTRO
@@ -138,25 +138,34 @@ while True:
 
         while recognizedRegister:
             contUser = 0
-            registerUser = str(input('\033[34mDigite seu nome de usuário: \033[m'))
 
-            if (len(usuarios) == 0):
-                break
-            elif (len(usuarios) != 0):
-                for user in usuarios:
-                    if (registerUser == user['user']):
-                        print('Nome de usuario já registrado!')
-                        print('Insira um outro nome.')
-                        contUser += 1
-                        break
-                if (contUser == 0):    
-                    recognizedRegister = False
-                else:
-                    recognizedRegister = True
+            registerUser = str(input('\033[34mDigite seu nome de usuário: \033[m'))
+            #removedor de espaços no inicio e no fim do nome
+            registerUser = registerUser.strip()
+            if (registerUser.isspace()) or (len(registerUser) <= 1):
+                print('Nome de usuario invalido')
+            else:
+                if (len(usuarios) == 0):
+                    break
+                elif (len(usuarios) != 0):
+                    for user in usuarios:
+                        if (registerUser == user['user']):
+                            print('Nome de usuario já registrado!')
+                            print('Insira um outro nome.')
+                            contUser += 1
+                            break
+                    if (contUser == 0):    
+                        recognizedRegister = False
+                    else:
+                        recognizedRegister = True
 
                    
-
-        firstPassword = str(input('\033[34mDigite sua senha: \033[m'))
+        while True:
+            firstPassword = str(input('\033[34mDigite sua senha: \033[m'))
+            if (len(firstPassword) < 6) or (' ' in firstPassword):
+                print('A senha precisa ter pelo menos 6 digitos, e sem espaços!')
+            else:
+                break
         #CHECAGEM DE SENHA
         while True:
             secondPassword = str(input('\033[34mConfirme a senha: \033[m'))
@@ -167,14 +176,18 @@ while True:
         #CHECAGEM DA DATA DE NASCIMENTO
         while (dataCorrect != True):
 
-            age = int(input('\033[34mDigite a sua idade: \033[m'))
+            age = input('\033[34mDigite a sua idade: \033[m')
 
-            if (age >= 6) and (age < 89):
-                dataCorrect = True
-            elif (age < 6):
-                print('\033O usuário é muito novo para possuir cadastro\033')
+            if (len(age) < 1) or (' ' in age):
+                print('Data informada invalida, ou com espaços!')
             else:
-                print('\033Usuario muito velho para possui cadastro\033')
+                age = int(age)
+                if (age >= 6) and (age < 89):
+                    dataCorrect = True
+                elif (age < 6):
+                    print('\033O usuário é muito novo para possuir cadastro\033')
+                else:
+                    print('\033Usuario muito velho para possui cadastro\033')
 
 
                 
@@ -182,8 +195,8 @@ while True:
         while recognizedEmail:
             contUser = 0
             userEmail = str(input('\033[34mDigite seu E-mail: \033[m')).lower()
-            if (len(userEmail) < 2):
-                print('Email informado invalido')
+            if (len(userEmail) < 2) or (' ' in userEmail):
+                print('Email informado invalido, ou com espaços!')
             else:
                 if (len(usuarios) == 0):
                     break
@@ -285,6 +298,7 @@ while True:
                                 for movie in movies:
                                     print(f'\033[34mFilme {contMovies+1}\033[m: \033[36m{movie['title']}\033[m')
                                     print(f'\033[34mValor do Ingresso: \033[36mR${movie['price']}\033[m')
+                                    print(f'\033[34mFaixa etária: \033[36m{movie['ageRating']} anos\033[m')
                                     print(f'\033[34mSala: \033[36m{movie['room']}\033[m')
                                     print(f'\033[34mHorário: \033[36m{movie['time'][0:2] + ':' + movie['time'][2:]}\033[m')
                                     print(f'\033[34m-------------------------\033[m')
@@ -299,7 +313,7 @@ while True:
                                     count = 1
                                     for movie in movies:
                                         #EXIBIÇÃO DAS CADEIRAS E ESCOLHA DO ASSENTO
-                                        if movie['title'].lower() == selectFilme and pearson['bank'] >= float(movie['price']):
+                                        if movie['title'].lower() == selectFilme and pearson['bank'] >= float(movie['price']) and str(pearson['age']) >= movie['ageRating']:
                                             count = 1
                                             salaSelected = movie['room']
                                             while showMatrix:
@@ -362,6 +376,10 @@ while True:
                                             print('\033[31mFilme inválido ou Saldo insuficiente!\033[m')
                                             input('\033[mPressione qualquer tecla para continuar!')
                                             recognizedBought = False
+                                        elif str(pearson['age']) < movie['ageRating']:
+                                            print('\033[31mA faixa etária não lhe permite assistir!\033[m')
+                                            input('Pressione qualquer tecla para continuar!')
+                                            recognizedBought = False
                                         else:
                                             count += 1           
                         # AVALIAÇÃO DE FILMES
@@ -369,8 +387,8 @@ while True:
                             recognizedComment = True
                             watchedMovies = list()
                             while recognizedComment:
-                                count = 0
-                                comment = dict()
+                                titleValidation = True
+                                count = 1
                                 if pearson['ticket']:
                                     for objects in pearson['ticket']:
                                         title = objects['titleMovie']
@@ -385,20 +403,28 @@ while True:
                                                 print(movie['title'])
                                                 print('Sinopse:')
                                                 print(movie['sinopse'])
-                                    while count <= 0:
+                                                print('')
+                                    while titleValidation:
                                         selectCommentMovie = input('Digite o título do filme o qual deseja comentar: ')
-                                        for movie in watchedMovies:
-                                            if movie == selectCommentMovie:
-                                                userComment = input('Digite seu comentário')
-                                                comment['user'] = pearson['user']
-                                                comment['comment'] = userComment
-                                                recognizedComment = False
-                                                count += 1
-                                                print('\033[33mComentário adicionado com sucesso!\033[m')
-                                                break
-                                            else:
-                                                print('Filme inválido!')
-                                    
+                                        if selectCommentMovie in watchedMovies:
+                                            for watch in watchedMovies:
+                                                if watch == selectCommentMovie:
+                                                    comment = dict()
+                                                    userComment = input('Digite seu comentário: ')
+                                                    comment['user'] = pearson['user']
+                                                    comment['movieComment'] = selectCommentMovie
+                                                    comment['comment'] = userComment
+                                                    for objMovies in movies:
+                                                        if(objMovies['title'] == selectCommentMovie):
+                                                            objMovies['comments'].append(comment)
+                                                            break
+                                                    recognizedComment = False
+                                                    titleValidation = False
+                                                    print('\033[33mComentário adicionado com sucesso!\033[m')
+                                                    input()
+                                                    break
+                                        else:
+                                            print('Filme informado invalido!')
                                             
                                 else:
                                     print('\033[31mVocê não assistiu nenhum filme para poder avaliar.\033[m')
@@ -434,12 +460,30 @@ while True:
                             thirtyDaysMonth = [4,6,9,11]
                             # RESET DA ESCOLHA DA SALA
                             recognizedRoom = True
+                            recognizedTitle = True
                             print("\033[H\033[J", end="")
                             print('\033[35m=' * 50 )
                             print('CADASTRAR FILME'.center(50))
                             print('=' * 50 ,'\033[36m \n')
                             # INICIO DO CADASTRO DO FILME
-                            movieTitle = input('\033[34mDigite o título do filme: \033[m')
+                            while recognizedTitle:
+                                countMovie = 0
+                                movieTitle = input('\033[34mDigite o título do filme: \033[m')
+
+                                if (len(movies) == 0):
+                                    break
+                                elif (len(movies) != 0):
+                                    for movie in movies:
+                                        if (movieTitle == movie['title']):
+                                            print('Título de filme já registrado!')
+                                            print('Insira um outro título.')
+                                            countMovie += 1
+                                            break
+                                    if (countMovie == 0):
+                                        recognizedTitle = False
+                                        break
+                                    else:
+                                        recognizedTitle = True
                             movieGenre = input('\033[34mDigite o gênero do filme: \033[m')
                             sinopseMovie = input('\033[34mDigite a sinopse do filme: \033[m')
                             ageRating = input('\033[34mDigite a classificação de idade: \033[m')
@@ -765,7 +809,38 @@ while True:
                                     input()
                         #GESTOR DE FEEDBACKS DO CLIENTE
                         elif actionMenu == 6:
-                            pass
+                            recognizedFeedback = True
+                            countEndMovies = 1
+                            print('filmes no catalago')
+                            for movie in movies:
+                                print(movie['title'])
+                            
+                            while recognizedFeedback:
+                                feedbackTitle = input('digite o titulo do filme que deseja ver os feedbacks: ')
+                                for objetedMovies in movies:
+                                    if feedbackTitle in list(objetedMovies.values()):
+                                        for movieList in movies:
+                                            if feedbackTitle == movieList['title']:
+                                                if (len(movieList['comments']) == 0):
+                                                    print('Filme não possui nenhum comentário')
+                                                    recognizedFeedback = False
+                                                    break
+                                                else:
+                                                    for dictComments in movieList['comments']:
+                                                        if (feedbackTitle == dictComments['movieComment']):
+                                                            print(f'Usuario: {dictComments['user']}')
+                                                            print(f'Comentario: {dictComments['comment']}')
+                                                            print('-'*20)
+                                                            recognizedFeedback =  False
+                                            elif (countEndMovies > len(movies)):
+                                                print('Filme não encontrado')
+                                                break
+                                            countEndMovies += 1
+                                    else:
+                                        print('Filme não encontrado ou informado errado')
+                                        break
+                                input()
+
 
     else:
         pass
