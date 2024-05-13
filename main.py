@@ -18,7 +18,7 @@ usuarios = [{
     }]
 
 movies = [{
-    'title' : 'abc',
+    'title' : 'Perdido em Código',
     'genre' : 'ação',
     'sinopse' :'''No filme "Perdido em Código", mergulhe em um universo onde a linha entre realidade e virtualidade se desfaz. 
 A trama acompanha Wellington, um talentoso programador em busca de uma solução revolucionária para um problema que assola a humanidade. 
@@ -107,7 +107,7 @@ while True:
         for movie in movies:
             if movie['title'] == movieCatalog:
                 print('\033[36m=' * 50) 
-                print(f'\33[36mTítulo do filme: {movie['title']}\nGênero do filme: {movie['genre']}\nSinopse do Filme: {movie['sinopse']}\nFaixa etária permitida: {movie['ageRating']}\nData de lançamento: {movie['release']}\nDuração: {movie['hours']} Hora(s) e {movie['minutes']} Minuto(s)\nPreço do ingresso: R${movie['price']}\nSala: {movie['room']}\nHorário de streaming: {movie['time'][0:2] + ':' + movie['time'][2:]}\nAprovação: {movie['rating']}\33[m')
+                print(f'\33[36mTítulo do filme: \033[33m{movie['title']}\n\033[36mGênero do filme: \033[33m{movie['genre']}\n\033[36mSinopse do Filme: \033[33m{movie['sinopse']}\n\033[36mFaixa etária permitida: \033[33m{movie['ageRating']}\n\033[36mData de lançamento: \033[33m{movie['release']}\n\033[36mDuração: \033[33m{movie['hours']} Hora(s) e {movie['minutes']} Minuto(s)\n\033[36mPreço do ingresso: \033[33mR${movie['price']}\n\033[36mSala: \033[33m{movie['room']}\n\033[36mHorário de streaming: \033[33m{movie['time'][0:2] + ':' + movie['time'][2:]}\n\033[36mAprovação: \033[33m{movie['rating']}\33[m')
                 print('\033[36m=' * 50)
                 input('\033[mPressione qualquer tecla para continuar!')
     
@@ -327,6 +327,10 @@ while True:
                                         print('\033[31mValor informado invalido!\033[m')
                             # COMPRA DE INGRESSO E EXEBIÇÃO DAS CADEIRA
                             elif actionMenu == 2:
+                                print("\033[H\033[J", end="")
+                                print('\033[35m=' * 50 )
+                                print('COMPRAR INGRESSO'.center(50))
+                                print('=' * 50 ,'\033[36m \n')
                                 recognizedBought = True
                                 while recognizedBought:
                                     showMatrix = True
@@ -424,6 +428,10 @@ while True:
                                 recognizedComment = True
                                 watchedMovies = list()
                                 while recognizedComment:
+                                    print("\033[H\033[J", end="")
+                                    print('\033[35m=' * 50 )
+                                    print('AVALIAR FILME'.center(50))
+                                    print('=' * 50 ,'\033[36m \n')
                                     titleValidation = True
                                     count = 1
                                     if pearson['ticket']:
@@ -436,18 +444,16 @@ while True:
                                         for watched in watchedMovies:
                                             for movie in movies:
                                                 if watched == movie['title']:
-                                                    print('Título:')
-                                                    print(movie['title'])
-                                                    print('Sinopse:')
-                                                    print(movie['sinopse'])
+                                                    print(f'\033[34mTítulo: \033[36m{movie['title']}')
+                                                    print(f'\033[34mSinopse: \033[36m{movie['sinopse']}')
                                                     print('')
                                         while titleValidation:
-                                            selectCommentMovie = input('Digite o título do filme o qual deseja comentar: ')
+                                            selectCommentMovie = input('\033[34mDigite o título do filme o qual deseja comentar: \033[m')
                                             if selectCommentMovie in watchedMovies:
                                                 for watch in watchedMovies:
                                                     if watch == selectCommentMovie:
                                                         comment = dict()
-                                                        userComment = input('Digite seu comentário: ')
+                                                        userComment = input('\033[34mDigite seu comentário: \033[m')
                                                         comment['user'] = pearson['user']
                                                         comment['movieComment'] = selectCommentMovie
                                                         comment['comment'] = userComment
@@ -458,22 +464,19 @@ while True:
                                                         recognizedComment = False
                                                         titleValidation = False
                                                         print('\033[33mComentário adicionado com sucesso!\033[m')
-                                                        input()
+                                                        input('Pressione qualquer tecla para continuar!')
                                                         break
                                             else:
-                                                print('Filme informado invalido!')
+                                                print('\033[31mFilme informado invalido!\033[m')
                                                 
                                     else:
                                         print('\033[31mVocê não assistiu nenhum filme para poder avaliar.\033[m')
-                                        input()
+                                        input('Pressione qualquer tecla para continuar!')
                                         break 
-                                
-                                #mostrar filmes assistidos (que o user possui ticket)
-                                #qual filme deseja avaliar?
-                                #salvar avaliação, comentário e user
                         else:
-                            print('Opção informada invalida!')
-                            input()    
+                            print('\033[31mOpção inválida!\033[m')
+                            input('Pressione qualquer tecla para continuar!')
+
 # CRUD - ADMIN
                 elif pearson['id'] == 1:
                     while True:
@@ -705,14 +708,14 @@ while True:
                                         for movie in movies:
                                             if movie['genre'] == searchMovieGenre:
                                                 print('\033[36m=' * 50)
-                                                print(f'\33[36mTítulo do filme: {movie['title']}\nGênero do filme: {movie['genre']}\nSinopse do Filme: {movie['sinopse']}\nFaixa etária permitida: {movie['ageRating']}\nData de lançamento: {movie['release']}\nDuração: {movie['hours']} Hora(s) e {movie['minutes']} Minuto(s)\nPreço do ingresso: R${movie['price']}\nSala: {movie['room']}\nHorário de streaming: {movie['time']}\nAprovação: {movie['rating']}\33[m')
+                                                print(f'\033[36mTítulo do filme: {movie['title']}\nGênero do filme: {movie['genre']}\nSinopse do Filme: {movie['sinopse']}\nFaixa etária permitida: {movie['ageRating']}\nData de lançamento: {movie['release']}\nDuração: {movie['hours']} Hora(s) e {movie['minutes']} Minuto(s)\nPreço do ingresso: R${movie['price']}\nSala: {movie['room']}\nHorário de streaming: {movie['time']}\nAprovação: {movie['rating']}\33[m')
                                                 print('\033[36m=' * 50,'\033[36m \n')
                                                 input('Pressione qualquer tecla para continuar!')
                                     else:
-                                        print('\33[31mDigite uma opção válida!\33[m')
+                                        print('\033[31mDigite uma opção válida!\033[m')
                                         input('Pressione qualquer tecla para continuar!')
                                 else:
-                                    print('Opção invalida!')
+                                    print('\033[31mOpção invalida!\033[m')
                                     input()
                             # REMOVER FILME   
                             elif actionMenu == 3:
@@ -794,12 +797,12 @@ while True:
                                             for sala in movieRoom:
                                                 if newRoom == sala:
                                                     if movieRoom[occupationRoom] == 1 and movieRoom[newOccupationRoom] == 1:
-                                                        print('As duas salas estão ocupadas, é impossível fazer a troca.')
+                                                        print('\033[31mA sala está ocupada, é impossível fazer a troca.\033[m')
                                                     elif movieRoom[occupationRoom] == 1 and movieRoom[newOccupationRoom] == 0:
                                                         movieRoom[occupationRoom] = 0
                                                         movieRoom[newOccupationRoom] = 1
                                                         movie['room'] = newRoom
-                                                        print('Troca das salas realizada com sucesso!')
+                                                        print('\033[32mTroca das salas realizada com sucesso!\033[32m')
                                                     else:
                                                         print('\033[31mA sala está ocupada\033[m')
                                         elif attType == 8:
@@ -841,7 +844,7 @@ while True:
                                             for movie in movies:
                                                 if majorRoom == movie['room']:
                                                     majorTitle = movie['title']
-                                            print(f'O filme mais vendido foi o {majorTitle} com {majorSeller} vendas!')
+                                            print(f'\033[34mO filme mais vendido foi o \033[33m{majorTitle} \033[34mcom \033[33m{majorSeller} \033[34mvendas!')
                                         elif (actionMenu == 2):
                                             #CONTROLE DE ASSENTOS
                                             for key in list(movieRoom.keys()):
@@ -854,50 +857,56 @@ while True:
                                                         imageSala += str('\033[31m SALA LOTADA!\033[m')
                                                         print(imageSala)
                                                     else:
-                                                        imageSala += str(f'\033[36m Cadeiras Livres: {movieRoom[indexSala] - movieRoom[key]} \033[m')
+                                                        imageSala += str(f'\033[36m Cadeiras Livres: \033[33m{movieRoom[indexSala] - movieRoom[key]} \033[m')
                                                         print(imageSala)
                                             pass
                                         else:
-                                            print('Opção digitada invalida')
-                                            input()
+                                            print('\033[31mOpção digitada invalida\033[m')
+                                            input('Pressione qualquer tecla para continuar!')
+
                                     else:
-                                        print('Opção invalida!')
-                                        input()
+                                        print('\033[31mOpção invalida!\033[m')
+                                        input('Pressione qualquer tecla para continuar!')
+
                             #GESTOR DE FEEDBACKS DO CLIENTE
                             elif actionMenu == 6:
+                                print("\033[H\033[J", end="")
+                                print('\033[35m=' * 50 )
+                                print('FEEDBACKS'.center(50))
+                                print('=' * 50 ,'\033[36m \n')
                                 recognizedFeedback = True
                                 countEndMovies = 1
-                                print('filmes no catalago')
+                                print('\033[33m--- Filmes Cadastrados ---')
                                 for movie in movies:
-                                    print(movie['title'])
+                                    print(f'\n\033[36m{movie['title']}')
                                 
                                 while recognizedFeedback:
-                                    feedbackTitle = input('digite o titulo do filme que deseja ver os feedbacks: ')
-                                    for objetedMovies in movies:
-                                        if feedbackTitle in list(objetedMovies.values()):
-                                            for movieList in movies:
+                                    feedbackTitle = input('\n\033[34mDigite o título do filme que deseja ver os feedbacks: \033[m')
+                                    for movieList in movies:
                                                 if feedbackTitle == movieList['title']:
                                                     if (len(movieList['comments']) == 0):
-                                                        print('Filme não possui nenhum comentário')
+                                                        print('\033[31mEsse filme não possui nenhum comentário\033[m')
+                                                        input('Pressione qualquer tecla para continuar!')
                                                         recognizedFeedback = False
                                                         break
                                                     else:
                                                         for dictComments in movieList['comments']:
                                                             if (feedbackTitle == dictComments['movieComment']):
-                                                                print(f'Usuario: {dictComments['user']}')
-                                                                print(f'Comentario: {dictComments['comment']}')
-                                                                print('-'*20)
+                                                                print('\033[35m=' * 50 )
+                                                                print(f'\033[34mUsuário: \033[36m{dictComments['user']}')
+                                                                print(f'\033[34mComentário: \033[36m{dictComments['comment']}')
+                                                                print('\033[35m=' * 50 )
                                                                 recognizedFeedback =  False
+                                                        input('\033[mPressione qualquer tecla para continuar!')
                                                 elif (countEndMovies > len(movies)):
-                                                    print('Filme não encontrado')
+                                                    print('\033[31mFilme não encontrado!\033[m')
+                                                    input('Pressione qualquer tecla para continuar!')
                                                     break
                                                 countEndMovies += 1
-                                        else:
-                                            print('Filme não encontrado ou informado errado')
-                                            break
-                                    input()
+                                        
+
                         else:
-                            print('Opção informada invalida!')
-                            input()
+                            print('\033[31mOpção informada invalida!\033[m')
+                            input('Pressione qualquer tecla para continuar!')
     else:
         pass
